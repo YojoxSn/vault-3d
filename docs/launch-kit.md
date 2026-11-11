@@ -12,9 +12,12 @@ Nobody can promise a repo goes viral. What decides it is, in this order: **a 10-
 
 ```bash
 gh repo edit --description "Your Obsidian second brain as a 3D hologram, controlled with your bare hands (webcam). 100% local." \
-  --homepage "https://YOUR-USER.github.io/YOUR-REPO/" \
-  --add-topic obsidian --add-topic threejs --add-topic mediapipe --add-topic hand-tracking \
-  --add-topic knowledge-graph --add-topic 3d-visualization --add-topic second-brain --add-topic webgl
+  --homepage "https://YojoxSn.github.io/vault-3d/" \
+  --add-topic obsidian --add-topic obsidian-md --add-topic threejs --add-topic three-js --add-topic mediapipe \
+  --add-topic hand-tracking --add-topic gesture-control --add-topic hand-gesture-recognition --add-topic computer-vision \
+  --add-topic knowledge-graph --add-topic graph-visualization --add-topic 3d-visualization --add-topic second-brain \
+  --add-topic pkm --add-topic webgl --add-topic typescript --add-topic vite --add-topic hologram --add-topic iron-man \
+  --add-topic claude-code
 ```
 
 - [ ] **Settings → General → Social preview → upload `public/social-preview.png`** (1280×640). This is the image shown when the link is shared.
@@ -60,16 +63,16 @@ Best window: Tuesday to Thursday, 8–10 am US Eastern. Do not post everywhere a
 
 > Show HN: Vault 3D – explore your Obsidian notes as a 3D hologram, controlled by hand
 >
-> Link: https://YOUR-USER.github.io/YOUR-REPO/
+> Link: https://YojoxSn.github.io/vault-3d/
 >
-> First comment: I wanted to see my notes as a network I could grab. It parses a vault (wikilinks, aliases, tags, ghost notes), lays it out with d3-force-3d in a Web Worker, and renders it with Three.js (instanced spheres, one geometry for all links, GPU-animated particles, bloom). Hand tracking is MediaPipe running in the browser; gestures are a small pure state machine on top of a One Euro filter, unit-tested with synthetic landmarks. Everything is local: you can drop your vault folder on the page and nothing is uploaded. Webcam thresholds need tuning on more setups, so I'd love reports. Repo: https://github.com/YOUR-USER/YOUR-REPO
+> First comment: I wanted to see my notes as a network I could grab. It parses a vault (wikilinks, aliases, tags, ghost notes), lays it out with d3-force-3d in a Web Worker, and renders it with Three.js (instanced spheres, one geometry for all links, GPU-animated particles, bloom). Hand tracking is MediaPipe running in the browser; gestures are a small pure state machine on top of a One Euro filter, unit-tested with synthetic landmarks. Everything is local: you can drop your vault folder on the page and nothing is uploaded. Webcam thresholds need tuning on more setups, so I'd love reports. Repo: https://github.com/YojoxSn/vault-3d
 
 **Reddit (r/ObsidianMD)**
 
 > **I turned my vault into a 3D hologram you can control with your hands (webcam, 100% local)**
 >
-> Open hand rotates it, pinch to open a note, two hands to zoom. Search, folder/tag filters, "open in Obsidian", full note panel. Try it in the browser without installing anything, or drop your vault folder on the page (notes are parsed locally, nothing leaves your machine): https://YOUR-USER.github.io/YOUR-REPO/
-> Source (MIT): https://github.com/YOUR-USER/YOUR-REPO
+> Open hand rotates it, pinch to open a note, two hands to zoom. Search, folder/tag filters, "open in Obsidian", full note panel. Try it in the browser without installing anything, or drop your vault folder on the page (notes are parsed locally, nothing leaves your machine): https://YojoxSn.github.io/vault-3d/
+> Source (MIT): https://github.com/YojoxSn/vault-3d
 > Feedback on gestures very welcome, it's tuned on my webcam only for now.
 
 **X / LinkedIn**
@@ -77,7 +80,7 @@ Best window: Tuesday to Thursday, 8–10 am US Eastern. Do not post everywhere a
 > I built a 3D hologram of my Obsidian vault that I control with my bare hands.
 > Webcam hand tracking, runs 100% in the browser, nothing uploaded.
 > Try the demo (no install) 👇
-> https://YOUR-USER.github.io/YOUR-REPO/
+> https://YojoxSn.github.io/vault-3d/
 
 **r/threejs**
 

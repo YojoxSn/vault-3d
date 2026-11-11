@@ -3,8 +3,8 @@
 Thanks for helping! The project is small on purpose: Vite + TypeScript + Three.js, no UI framework.
 
 ```bash
-git clone https://github.com/YOUR-USER/YOUR-REPO.git
-cd YOUR-REPO
+git clone https://github.com/YojoxSn/vault-3d.git
+cd vault-3d
 npm install
 npm run dev        # opens on the landing page: try the demo or drop a folder
 npm test           # parser + gesture tests (synthetic hands, no camera needed)

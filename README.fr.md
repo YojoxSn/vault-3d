@@ -4,7 +4,7 @@
 
 **Votre second cerveau Obsidian en hologramme 3D, contrôlé à mains nues.**
 
-[![Démo en ligne](https://img.shields.io/badge/▶_démo_en_ligne-essayer-00e5ff?style=for-the-badge)](https://YOUR-USER.github.io/YOUR-REPO/)
+[![Démo en ligne](https://img.shields.io/badge/▶_démo_en_ligne-essayer-00e5ff?style=for-the-badge)](https://YojoxSn.github.io/vault-3d/)
 
 <img src="docs/hero.png" alt="Un vault de 200 notes en réseau 3D lumineux" width="860">
 
@@ -16,7 +16,7 @@
 
 ## Essayer en 10 secondes
 
-1. Ouvrez la **[démo en ligne](https://YOUR-USER.github.io/YOUR-REPO/)** et cliquez sur **Explore the demo**.
+1. Ouvrez la **[démo en ligne](https://YojoxSn.github.io/vault-3d/)** et cliquez sur **Explore the demo**.
 2. Appuyez sur **H**, autorisez la caméra, levez la main (bonne lumière, 40 à 80 cm de la caméra).
 3. Ou **déposez le dossier de votre vault** sur la page. Vos notes sont lues dans l'onglet du navigateur et **ne sont jamais envoyées**.
 
@@ -38,8 +38,8 @@ Tout fonctionne aussi à la souris et au clavier.
 ## Lancer en local
 
 ```bash
-git clone https://github.com/YOUR-USER/YOUR-REPO.git
-cd YOUR-REPO
+git clone https://github.com/YojoxSn/vault-3d.git
+cd vault-3d
 npm install
 npm run dev          # http://localhost:5173
 ```
@@ -52,6 +52,15 @@ npm run dev                 # régénère le graphe depuis votre vault à chaque
 ```
 
 `.env`, `public/graph.json` et `public/content.json` (qui contiennent le texte de vos notes) sont ignorés par git. Le vault est lu en **lecture seule**.
+
+## Comment c'est fait
+
+Construit en conversation avec [Claude Code](https://claude.com/claude-code) à partir de deux prompts, puis emballé pour tout le monde (vault de démo, glisser-déposer, tests, Pages).
+
+- 📝 **[Les prompts](docs/PROMPTS.md)**: copiez-les, mettez le chemin de votre vault, obtenez votre version.
+- 🛠 **[Comment ça a été fait](docs/COMMENT-CA-A-ETE-FAIT.md)**: la méthode, les problèmes rencontrés, comment refaire et publier votre copie.
+
+<img src="docs/real-vault-hands.png" alt="Première version sur un vrai vault de 2 054 notes, mode mains actif" width="860">
 
 ## Limites connues
 

@@ -4,7 +4,7 @@
 
 **Your Obsidian second brain as a 3D hologram, controlled with your bare hands.**
 
-[![Live demo](https://img.shields.io/badge/▶_live_demo-try_it_now-00e5ff?style=for-the-badge)](https://YOUR-USER.github.io/YOUR-REPO/)
+[![Live demo](https://img.shields.io/badge/▶_live_demo-try_it_now-00e5ff?style=for-the-badge)](https://YojoxSn.github.io/vault-3d/)
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue)
 ![100% local](https://img.shields.io/badge/privacy-100%25_local-brightgreen)
@@ -23,7 +23,7 @@
 
 ## Try it in 10 seconds
 
-1. Open the **[live demo](https://YOUR-USER.github.io/YOUR-REPO/)** and click **Explore the demo**.
+1. Open the **[live demo](https://YojoxSn.github.io/vault-3d/)** and click **Explore the demo**.
 2. Press **H**, allow the camera, hold up your hand (good light, 40–80 cm from the camera).
 3. Or **drop your own vault folder** on the page. Your notes are parsed inside your browser tab and **never uploaded**.
 
@@ -70,8 +70,8 @@ Everything also works with mouse and keyboard.
 ## Run it locally
 
 ```bash
-git clone https://github.com/YOUR-USER/YOUR-REPO.git
-cd YOUR-REPO
+git clone https://github.com/YojoxSn/vault-3d.git
+cd vault-3d
 npm install
 npm run dev          # http://localhost:5173 — demo, or drop a folder on the page
 ```
@@ -121,6 +121,17 @@ Hand tracking runs **on-device** in your browser (WASM + a 7.8 MB model shipped 
 - Needs a browser with WebGL2 and, for hands mode, camera access over HTTPS or `localhost`.
 - Attachments (images, PDF) are ignored; only `.md` notes become nodes.
 - "Brain shape" is an experiment: it works best with a large vault.
+
+## How it was made
+
+Built in conversation with [Claude Code](https://claude.com/claude-code) from two prompts, then packaged for everyone (demo vault, drag-and-drop, tests, Pages).
+
+- 📝 **[The prompts](docs/PROMPTS.md)**: copy them, put your own vault path, get your own version.
+- 🛠 **[How it was made](docs/HOW-IT-WAS-MADE.md)**: the method, the problems met, how to reproduce and publish your own copy.
+
+<img src="docs/real-vault-hands.png" alt="First version of the project on a real 2,054-note vault, hands mode on" width="860">
+
+*The first version on a real 2,054-note vault, hands mode on (folder names blurred).*
 
 ## Contributing
 
