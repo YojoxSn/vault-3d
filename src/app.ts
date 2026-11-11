@@ -6,6 +6,7 @@ import { makeResolver, type Resolver } from './parser/core';
 import type { GraphNode } from './parser/types';
 import { STATE_DIM, STATE_HI, STATE_NORMAL, type SceneGraph } from './scene/graphObjects';
 import { assignHemispheres, LayoutRunner } from './scene/layout';
+import { computeOrbLayout, createOrbDecor, type OrbDecor } from './scene/orb';
 import { Stage } from './scene/stage';
 import { createLanding } from './ui/landing';
 import { renderNote } from './ui/markdown';
@@ -41,6 +42,9 @@ export class App {
   private hideOrphans = false;
   private hideGhosts = false;
   private brain = false;
+  private orb = true;
+  private decor: OrbDecor | null = null;
+  private tween: ((dt: number) => void) | null = null;
   private holo = true;
   private hovered = -1;
   private hoverFromHand = false;
@@ -60,6 +64,7 @@ export class App {
     this.bindKeys();
     this.bindDrop();
     this.stage.frameCbs.push(() => this.onFrame());
+    this.stage.frameCbs.push((dt) => this.decor?.update(dt));
   }
 
   // ------------------------------------------------------------------------------------------ UI
@@ -74,6 +79,7 @@ export class App {
         if (name === 'orphans') { this.hideOrphans = v; this.refreshFilters(); }
         else if (name === 'ghosts') { this.hideGhosts = v; this.refreshFilters(); }
         else if (name === 'holo') this.setHolo(v);
+        else if (name === 'orb') this.setOrb(v);
         else this.setBrain(v);
       },
       onHands: () => void this.toggleHands(),
@@ -219,7 +225,7 @@ export class App {
     this.stage.setHologram(this.holo);
     this.firstFit = true;
     this.refreshFilters();
-    this.runLayout(false);
+    this.applyMode(true);
 
     const tagCount = new Map<string, number>();
     for (const nd of this.nodes) for (const t of nd.tags) tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
@@ -245,6 +251,7 @@ export class App {
   }
 
   private onLayout(pos: Float32Array, done: boolean, tick: number) {
+    if (this.orb) return; // a late message from a cancelled run
     this.stage.setPositions(pos, this.firstFit);
     this.firstFit = false;
     this.sidebar.setStatus(done ? '' : `◌ laying out… ${tick}`);
@@ -367,10 +374,85 @@ export class App {
 
   private setBrain(v: boolean) {
     this.brain = v;
-    this.sidebar.setFlag('brain', v);
-    this.stage.graph?.setSizeScale(v ? 0.6 : 1);
-    if (this.data) this.runLayout(true);
-    this.toast(v ? 'Brain shape: two hemispheres' : 'Free-form layout');
+    if (v) this.orb = false;
+    this.sidebar.setFlag('brain', this.brain);
+    this.sidebar.setFlag('orb', this.orb);
+    this.applyMode();
+    this.toast(v ? 'Brain shape: two hemispheres' : this.orb ? 'Orb mode' : 'Free-form layout');
+  }
+
+  private setOrb(v: boolean) {
+    this.orb = v;
+    if (v) this.brain = false;
+    this.sidebar.setFlag('orb', this.orb);
+    this.sidebar.setFlag('brain', this.brain);
+    this.applyMode();
+    this.toast(v ? 'Orb: height = time, wedge = folder' : 'Free-form layout');
+  }
+
+  /** Lays the notes out according to the current mode (orb, brain or free). */
+  private applyMode(initial = false) {
+    const g = this.stage.graph;
+    if (!g || !this.data) return;
+    this.layout.cancel();
+    this.cancelTween();
+    if (this.orb) {
+      const { positions, R } = computeOrbLayout(this.nodes);
+      const dated = this.nodes.filter((n) => !n.ghost && n.updatedAt > 0).map((n) => n.updatedAt);
+      const year = (t: number) => String(new Date(t).getUTCFullYear());
+      const top = dated.length ? year(Math.max(...dated)) : 'NOW';
+      const bottom = dated.length ? year(Math.min(...dated)) : 'THEN';
+      this.clearDecor();
+      this.decor = createOrbDecor(R, top, bottom);
+      this.stage.setDecor(this.decor.group);
+      g.setSizeScale(0.5);
+      g.setGlowScale(0.45, 0.65);
+      this.stage.framePad = 1.95;
+      this.tweenTo(positions, initial ? 0 : 1400);
+    } else {
+      this.clearDecor();
+      this.stage.framePad = 1;
+      g.setGlowScale(1, 1);
+      g.setSizeScale(this.brain ? 0.6 : 1);
+      this.runLayout(!initial);
+    }
+  }
+
+  private clearDecor() {
+    if (!this.decor) return;
+    this.stage.setDecor(null);
+    this.decor.dispose();
+    this.decor = null;
+  }
+
+  private cancelTween() {
+    const cb = this.tween;
+    if (!cb) return;
+    this.tween = null;
+    setTimeout(() => { const i = this.stage.frameCbs.indexOf(cb); if (i >= 0) this.stage.frameCbs.splice(i, 1); }, 0);
+  }
+
+  /** Smoothly moves every node to the target positions. */
+  private tweenTo(target: Float32Array, ms: number) {
+    const g = this.stage.graph!;
+    const first = this.firstFit;
+    this.firstFit = false;
+    if (ms <= 0 || first) { this.stage.setPositions(target, true); this.sidebar.setStatus(''); return; }
+    const from = g.positions.slice();
+    const cur = new Float32Array(target.length);
+    let t = 0;
+    const cb = (dt: number) => {
+      if (this.tween !== cb) return;
+      t += dt * 1000;
+      const k = Math.min(t / ms, 1);
+      const e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+      for (let i = 0; i < cur.length; i++) cur[i] = from[i] + (target[i] - from[i]) * e;
+      this.stage.setPositions(cur, false);
+      if (k >= 1) { this.cancelTween(); this.stage.recenter(); }
+    };
+    this.tween = cb;
+    this.stage.frameCbs.push(cb);
+    this.sidebar.setStatus('');
   }
 
   async toggleHands() {
@@ -480,6 +562,7 @@ export class App {
         case '/': e.preventDefault(); this.sidebar.search.focus(); break;
         case 'r': case 'R': this.stage.recenter(); break;
         case ' ': e.preventDefault(); this.stage.paused = !this.stage.paused; this.toast(this.stage.paused ? 'Rotation paused' : 'Rotation resumed', 1200); break;
+        case 'o': case 'O': this.setOrb(!this.orb); break;
         case 'b': case 'B': this.setBrain(!this.brain); break;
         case 'g': case 'G': this.setHolo(!this.holo); break;
         case 'h': case 'H': void this.toggleHands(); break;

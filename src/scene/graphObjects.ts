@@ -36,6 +36,10 @@ export class GraphObjects {
   private solid!: THREE.InstancedMesh;
   private ghostMesh!: THREE.InstancedMesh;
   private lines!: THREE.LineSegments;
+  private lineMat!: THREE.ShaderMaterial;
+  private pointMat!: THREE.ShaderMaterial;
+  private baseAlpha = 0.2;
+  private baseSize = 4;
   private points!: THREE.Points;
   private particleLink!: Int32Array;
   private linkState: Float32Array;
@@ -118,6 +122,8 @@ export class GraphObjects {
       blending: THREE.AdditiveBlending,
       uniforms: { uFog: this.shared.uFog, uAlpha: { value: Math.min(0.42, Math.max(0.07, 0.05 + 28 / Math.max(m, 1))) } },
     });
+    this.lineMat = mat;
+    this.baseAlpha = mat.uniforms.uAlpha.value;
     this.lines = new THREE.LineSegments(geo, mat);
     this.lines.frustumCulled = false;
     this.disposables.push(geo, mat);
@@ -159,6 +165,7 @@ export class GraphObjects {
         uSize: { value: 4 },
       },
     });
+    this.pointMat = mat;
     this.points = new THREE.Points(geo, mat);
     this.points.frustumCulled = false;
     this.disposables.push(geo, mat);
@@ -212,6 +219,12 @@ export class GraphObjects {
   }
 
   setSizeScale(k: number) { this.sizeScale = k; this.refreshMatrices(); }
+
+  /** Scales the glow of links and particles (the orb needs them calmer so the core does not burn out). */
+  setGlowScale(links: number, particles: number) {
+    this.lineMat.uniforms.uAlpha.value = this.baseAlpha * links;
+    this.pointMat.uniforms.uSize.value = this.baseSize * particles;
+  }
 
   isVisible(i: number) { return this.visible[i] === 1; }
 

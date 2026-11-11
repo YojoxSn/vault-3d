@@ -11,7 +11,7 @@
 ![Three.js](https://img.shields.io/badge/Three.js-WebGL-black)
 ![MediaPipe](https://img.shields.io/badge/MediaPipe-hand_tracking-orange)
 
-<img src="docs/hero.png" alt="A vault of 200 notes rendered as a glowing 3D network" width="860">
+<img src="docs/hero.png" alt="A vault of 200 notes as a glowing hologram orb: height is time, wedges are folders" width="860">
 
 *Tony Stark's lab, but for your notes. No install: open the page, point your webcam at your hands.*
 
@@ -42,10 +42,15 @@
 
 Everything also works with mouse and keyboard.
 
-<img src="docs/note-panel.png" alt="Note panel with outgoing and incoming links" width="860">
+<img src="docs/note-panel.png" alt="Note panel with outgoing and incoming links, neighbours lit up" width="860">
+
+<img src="docs/graph-mode.png" alt="Free-form network mode (press O)" width="860">
+
+*Same vault in free-form network mode (`O`).*
 
 ## Features
 
+- **Orb mode** (default): your notes on a glass globe. **Height = time** (newest at the north pole), **wedge = folder**, well-connected notes sink toward the glowing crystal core. Press `O` to switch to the free-form network.
 - **One sphere per note**: size = number of connections, colour = root folder. Notes that are linked but do not exist yet appear as **wireframe ghosts**.
 - **Glowing links with flowing particles** showing link direction, bloom, fog, star field, scanlines and grain (toggle with `G`).
 - **Full note content** in the side panel (Markdown rendered and sanitised), with clickable incoming / outgoing links, tags, dates and word count.
@@ -60,6 +65,7 @@ Everything also works with mouse and keyboard.
 | `/` | Search |
 | `R` | Recenter |
 | `Space` | Pause the auto-rotation |
+| `O` | Orb mode / free-form network |
 | `B` | Brain shape |
 | `G` | Hologram effect |
 | `H` | Hands mode |

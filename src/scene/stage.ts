@@ -23,12 +23,15 @@ export class Stage {
   };
   private objects: GraphObjects | null = null;
   private stars: THREE.Points;
+  private decor: THREE.Object3D | null = null;
   private clock = new THREE.Clock();
   private fly: null | { t: number; dur: number; fromT: THREE.Vector3; toT: THREE.Vector3; fromP: THREE.Vector3; toP: THREE.Vector3 } = null;
   private lastInteract = performance.now();
   private raycaster = new THREE.Raycaster();
   private center = new THREE.Vector3();
   radius = 100;
+  /** Extra room around the nodes when framing the view (the orb globe is larger than its notes). */
+  framePad = 1;
   paused = false;
   frameCbs: Array<(dt: number) => void> = [];
   fps = 0;
@@ -107,6 +110,13 @@ export class Stage {
 
   get graph() { return this.objects; }
 
+  /** Adds decoration (e.g. the orb globe) to the scene. Pass null to clear. */
+  setDecor(g: THREE.Object3D | null) {
+    if (this.decor) this.scene.remove(this.decor);
+    this.decor = g;
+    if (g) this.scene.add(g);
+  }
+
   setHologram(on: boolean) {
     (this.holo.uniforms as Record<string, { value: unknown }>).uHolo.value = on ? 1 : 0;
     this.bloom.strength = on ? 0.6 : 0.5;
@@ -134,7 +144,7 @@ export class Stage {
   recenter(instant = false) {
     const fovR = (this.camera.fov * Math.PI) / 180;
     const aspect = this.camera.aspect;
-    const distV = this.radius / Math.sin(fovR / 2);
+    const distV = (this.radius * this.framePad) / Math.sin(fovR / 2);
     const dist = Math.max(distV, distV / Math.min(aspect, 1)) * 0.62;
     const dir = this.camera.position.clone().sub(this.controls.target);
     if (dir.lengthSq() < 1e-6) dir.set(0, 0.25, 1);

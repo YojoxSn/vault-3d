@@ -20,6 +20,8 @@ export class LayoutRunner {
     const msg: LayoutRequest = { type: 'run', ...input };
     this.worker.postMessage(msg);
   }
+  /** Stops the current run: its late messages are dropped. */
+  cancel() { this.worker.postMessage({ type: 'cancel' }); }
   dispose() { this.worker.terminate(); }
 }
 

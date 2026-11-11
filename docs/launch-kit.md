@@ -29,7 +29,7 @@ gh repo edit --description "Your Obsidian second brain as a 3D hologram, control
 10 to 15 seconds, no talking, screen recording of the **demo** (not your private vault) **with your hand visible in the corner window** and ideally a second shot of you with your hand in front of the screen.
 
 Sequence that reads instantly:
-1. The brain slowly turning.
+1. The orb slowly turning (it is the default view, and the most striking one).
 2. Open hand: it rotates with your palm.
 3. Two-hand pinch, spread: zoom into the network.
 4. Point, then pinch on a sphere: camera flies in, note panel opens.

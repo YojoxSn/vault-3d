@@ -24,8 +24,9 @@ export interface LayoutResponse {
 interface SimNode { index: number; x: number; y: number; z: number; vx: number; vy: number; vz: number }
 let runId = 0;
 
-self.onmessage = (e: MessageEvent<LayoutRequest>) => {
+self.onmessage = (e: MessageEvent<LayoutRequest | { type: 'cancel' }>) => {
   if (e.data.type === 'run') void run(e.data);
+  else if (e.data.type === 'cancel') runId++;
 };
 
 const tick = () => new Promise<void>((r) => setTimeout(r, 0));

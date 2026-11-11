@@ -20,6 +20,10 @@
 2. Appuyez sur **H**, autorisez la caméra, levez la main (bonne lumière, 40 à 80 cm de la caméra).
 3. Ou **déposez le dossier de votre vault** sur la page. Vos notes sont lues dans l'onglet du navigateur et **ne sont jamais envoyées**.
 
+## Le mode Orbe
+
+Par défaut, vos notes sont posées sur un **globe de verre**: la **hauteur = le temps** (les plus récentes au pôle nord), le **secteur = le dossier**, et les notes très reliées s'enfoncent vers le cristal lumineux du centre. Touche `O` pour passer au réseau libre.
+
 ## Gestes
 
 | Geste | Effet |

@@ -7,7 +7,7 @@ export interface SidebarHandlers {
   onPickResult(i: number): void;
   onToggleFolder(name: string): void;
   onToggleTag(tag: string): void;
-  onFlag(name: 'orphans' | 'ghosts' | 'holo' | 'brain', v: boolean): void;
+  onFlag(name: 'orphans' | 'ghosts' | 'holo' | 'brain' | 'orb', v: boolean): void;
   onHands(): void;
   onRecenter(): void;
 }
@@ -38,6 +38,7 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
       <label class="row"><input type="checkbox" id="f-orph"> Hide orphan notes</label>
       <label class="row"><input type="checkbox" id="f-ghost"> Hide ghost notes (wireframe)</label>
       <label class="row"><input type="checkbox" id="f-holo" checked> Hologram effect <kbd>G</kbd></label>
+      <label class="row"><input type="checkbox" id="f-orb" checked> Orb mode: time × topic <kbd>O</kbd></label>
       <label class="row"><input type="checkbox" id="f-brain"> Brain shape <kbd>B</kbd></label>
     </div>
     <div class="btns">
@@ -46,7 +47,7 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
     </div>`;
   const hint = document.createElement('div');
   hint.id = 'hint';
-  hint.innerHTML = `<kbd>/</kbd>search<kbd>R</kbd>recenter<kbd>Space</kbd>pause spin<kbd>B</kbd>brain<kbd>H</kbd>hands<kbd>Esc</kbd>close`;
+  hint.innerHTML = `<kbd>/</kbd>search<kbd>R</kbd>recenter<kbd>Space</kbd>pause spin<kbd>O</kbd>orb<kbd>B</kbd>brain<kbd>H</kbd>hands<kbd>Esc</kbd>close`;
   root.append(hud, toggle, side, hint);
 
   const $ = <T extends HTMLElement>(id: string) => side.querySelector<T>('#' + id) ?? hud.querySelector<T>('#' + id)!;
@@ -79,6 +80,7 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
   $<HTMLInputElement>('f-ghost').addEventListener('change', (e) => h.onFlag('ghosts', (e.target as HTMLInputElement).checked));
   $<HTMLInputElement>('f-holo').addEventListener('change', (e) => h.onFlag('holo', (e.target as HTMLInputElement).checked));
   $<HTMLInputElement>('f-brain').addEventListener('change', (e) => h.onFlag('brain', (e.target as HTMLInputElement).checked));
+  $<HTMLInputElement>('f-orb').addEventListener('change', (e) => h.onFlag('orb', (e.target as HTMLInputElement).checked));
   $('b-hands').addEventListener('click', h.onHands);
   $('b-center').addEventListener('click', h.onRecenter);
   toggle.addEventListener('click', () => side.classList.toggle('collapsed'));
@@ -108,7 +110,7 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
         : '<div class="r" style="cursor:default;color:var(--muted)">No match</div>';
     },
     setHandsOn(on: boolean) { $('b-hands').classList.toggle('on', on); },
-    setFlag(name: 'holo' | 'brain', v: boolean) { $<HTMLInputElement>(name === 'holo' ? 'f-holo' : 'f-brain').checked = v; },
+    setFlag(name: 'holo' | 'brain' | 'orb', v: boolean) { $<HTMLInputElement>('f-' + name).checked = v; },
     toggleCollapsed() { side.classList.toggle('collapsed'); },
     clearSearch() { search.value = ''; },
   };
