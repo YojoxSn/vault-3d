@@ -1,0 +1,38 @@
+{
+  "name": "vault-3d",
+  "version": "0.1.0",
+  "description": "Explore your Obsidian vault as a 3D hologram and control it with your bare hands through the webcam.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "predev": "node scripts/predev.mjs",
+    "dev": "vite",
+    "dev:live": "tsx scripts/build-graph.ts --watch & vite",
+    "prebuild": "node scripts/copy-wasm.mjs",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "build:graph": "tsx scripts/build-graph.ts",
+    "build:demo": "tsx scripts/make-demo.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "^0.10.21",
+    "d3-force-3d": "^3.0.6",
+    "dompurify": "^3.2.6",
+    "marked": "^15.0.12",
+    "three": "^0.178.0"
+  },
+  "devDependencies": {
+    "@types/dompurify": "^3.0.5",
+    "@types/node": "^22.15.0",
+    "@types/three": "^0.178.0",
+    "chokidar": "^4.0.3",
+    "jsdom": "^26.1.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4"
+  }
+}

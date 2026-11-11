@@ -1,0 +1,151 @@
+/** Fictional "second brain" used for the public demo. Nothing here comes from a real vault. */
+export type Concept = [title: string, blurb: string, related: string[], tags?: string[]];
+
+export const NEURO: Concept[] = [
+  ['Hippocampus', 'Seahorse-shaped structure that turns fleeting experiences into lasting memories.', ['Memory Consolidation', 'Place Cells', 'Sleep', 'Long-Term Potentiation'], ['memory']],
+  ['Synaptic Plasticity', 'Connections between neurons strengthen or weaken with use. The physical basis of learning.', ['Long-Term Potentiation', 'Hebbian Learning', 'Neuroplasticity'], ['learning']],
+  ['Long-Term Potentiation', 'A lasting increase in synaptic strength after high-frequency stimulation.', ['Synaptic Plasticity', 'Hippocampus', 'NMDA Receptors'], ['memory']],
+  ['Hebbian Learning', '"Cells that fire together wire together." The ancestor of many learning rules in ML.', ['Synaptic Plasticity', 'Backpropagation', 'Donald Hebb'], ['learning']],
+  ['Memory Consolidation', 'Stabilising a fresh memory trace, mostly while we sleep.', ['Sleep', 'Hippocampus', 'Sharp-Wave Ripples', 'Spaced Repetition'], ['memory', 'sleep']],
+  ['Sleep', 'Not downtime: replay, cleanup and consolidation.', ['Memory Consolidation', 'Glymphatic System', 'Circadian Rhythm', 'Sharp-Wave Ripples'], ['sleep']],
+  ['Sharp-Wave Ripples', 'Fast hippocampal bursts replaying the day, compressed in time.', ['Hippocampus', 'Sleep', 'Place Cells'], ['sleep']],
+  ['Place Cells', 'Neurons that fire when an animal is at a specific location. The brain\'s GPS.', ['Hippocampus', 'Grid Cells', 'John O\'Keefe'], ['navigation']],
+  ['Grid Cells', 'Entorhinal neurons firing on a hexagonal lattice of positions.', ['Place Cells', 'Entorhinal Cortex', 'Cognitive Maps'], ['navigation']],
+  ['Entorhinal Cortex', 'The hub between neocortex and hippocampus.', ['Grid Cells', 'Hippocampus'], ['navigation']],
+  ['Cognitive Maps', 'Mental models of space, and maybe of concepts too.', ['Grid Cells', 'Knowledge Graphs', 'Zettelkasten'], ['navigation']],
+  ['Default Mode Network', 'Active when the mind wanders, remembers or imagines the future.', ['Mind Wandering', 'Creativity', 'Prefrontal Cortex'], ['attention']],
+  ['Mind Wandering', 'About half of waking life. Useful for incubating ideas.', ['Default Mode Network', 'Creativity', 'Flow State'], ['attention']],
+  ['Prefrontal Cortex', 'Planning, working memory, inhibition.', ['Working Memory', 'Executive Function', 'Dopamine'], ['attention']],
+  ['Working Memory', 'The scratchpad. Holds roughly four chunks at once.', ['Prefrontal Cortex', 'Cognitive Load', 'Chunking'], ['memory']],
+  ['Executive Function', 'Goal-directed control: switching, inhibiting, updating.', ['Prefrontal Cortex', 'Deep Work'], ['attention']],
+  ['Dopamine', 'Less "pleasure", more "prediction error" and motivation.', ['Reward Prediction Error', 'Reinforcement Learning', 'Prefrontal Cortex', 'Habit Loop'], ['motivation']],
+  ['Reward Prediction Error', 'Dopamine neurons encode the gap between expected and received reward.', ['Dopamine', 'Reinforcement Learning', 'Temporal Difference'], ['motivation']],
+  ['Neuroplasticity', 'The adult brain keeps rewiring itself, slowly.', ['Synaptic Plasticity', 'Deliberate Practice', 'Sleep'], ['learning']],
+  ['Glymphatic System', 'Waste-clearing network most active during deep sleep.', ['Sleep'], ['sleep']],
+  ['Circadian Rhythm', 'The ~24h internal clock driven by the suprachiasmatic nucleus.', ['Sleep', 'Morning Routine'], ['sleep']],
+  ['NMDA Receptors', 'Coincidence detectors that gate plasticity.', ['Long-Term Potentiation', 'Synaptic Plasticity'], ['learning']],
+  ['Visual Cortex', 'Hierarchy of edge, shape and object detectors. The blueprint of CNNs.', ['Convolutional Networks', 'Hubel and Wiesel'], ['vision']],
+  ['Attention (Neuroscience)', 'Selecting what to process. Gain control on sensory neurons.', ['Attention Mechanism', 'Prefrontal Cortex', 'Deep Work'], ['attention']],
+  ['Connectome', 'The complete wiring diagram of a nervous system.', ['Brain Atlas', 'Knowledge Graphs', 'Graph Theory'], ['structure']],
+  ['Cerebellum', 'Holds more than half of the brain\'s neurons. Timing and motor learning.', ['Motor Learning', 'Deliberate Practice'], ['structure']],
+  ['Motor Learning', 'From clumsy to automatic. Practice moves control from cortex to basal ganglia.', ['Cerebellum', 'Habit Loop', 'Deliberate Practice'], ['learning']],
+];
+
+export const ML: Concept[] = [
+  ['Backpropagation', 'Credit assignment through the chain rule. Biologically implausible yet it works.', ['Gradient Descent', 'Hebbian Learning', 'Geoffrey Hinton'], ['training']],
+  ['Gradient Descent', 'Walk downhill on the loss surface, one small step at a time.', ['Backpropagation', 'Loss Landscape', 'Adam Optimizer'], ['training']],
+  ['Adam Optimizer', 'Adaptive per-parameter learning rates with momentum.', ['Gradient Descent'], ['training']],
+  ['Loss Landscape', 'High-dimensional terrain with surprisingly benign minima.', ['Gradient Descent', 'Generalization'], ['training']],
+  ['Generalization', 'Why do over-parameterised networks not just memorise?', ['Loss Landscape', 'Overfitting', 'Double Descent'], ['theory']],
+  ['Overfitting', 'Memorising noise. Regularisation is the cure.', ['Generalization', 'Dropout'], ['theory']],
+  ['Double Descent', 'Test error falls, rises, then falls again as models grow.', ['Generalization'], ['theory']],
+  ['Dropout', 'Randomly silencing units during training.', ['Overfitting'], ['training']],
+  ['Convolutional Networks', 'Weight sharing + locality: vision inductive biases.', ['Visual Cortex', 'Yann LeCun', 'Backpropagation'], ['vision']],
+  ['Transformers', 'Attention is all you need: parallel sequence modelling at scale.', ['Attention Mechanism', 'Positional Encoding', 'Scaling Laws', 'Large Language Models'], ['architecture']],
+  ['Attention Mechanism', 'Soft lookup: queries match keys, values are mixed.', ['Transformers', 'Attention (Neuroscience)', 'Working Memory'], ['architecture']],
+  ['Positional Encoding', 'Giving a permutation-invariant model a sense of order.', ['Transformers'], ['architecture']],
+  ['Embeddings', 'Meaning as geometry: similar things end up close together.', ['Vector Search', 'Large Language Models', 'Knowledge Graphs'], ['representation']],
+  ['Vector Search', 'Nearest-neighbour retrieval over embeddings.', ['Embeddings', 'Retrieval-Augmented Generation'], ['retrieval']],
+  ['Retrieval-Augmented Generation', 'Give the model your notes at question time instead of retraining it.', ['Vector Search', 'Large Language Models', 'Second Brain'], ['retrieval']],
+  ['Large Language Models', 'Next-token predictors that learned a surprising amount of the world.', ['Transformers', 'Scaling Laws', 'RLHF', 'Embeddings', 'Prompt Engineering'], ['llm']],
+  ['Scaling Laws', 'Loss falls as a power law of compute, data and parameters.', ['Large Language Models', 'Transformers'], ['theory']],
+  ['RLHF', 'Fine-tuning with human preferences as the reward signal.', ['Reinforcement Learning', 'Large Language Models'], ['llm']],
+  ['Reinforcement Learning', 'Learn by trial, error and delayed reward.', ['Temporal Difference', 'Reward Prediction Error', 'RLHF', 'Dopamine'], ['rl']],
+  ['Temporal Difference', 'Bootstrapped value learning. TD error looks a lot like dopamine.', ['Reinforcement Learning', 'Reward Prediction Error'], ['rl']],
+  ['Prompt Engineering', 'Telling a model what you actually want. Mostly clear writing.', ['Large Language Models', 'Writing to Think'], ['llm']],
+  ['Diffusion Models', 'Generate by learning to denoise.', ['Embeddings', 'Scaling Laws'], ['generative']],
+  ['Mechanistic Interpretability', 'Reverse-engineering circuits inside neural networks.', ['Transformers', 'Connectome', 'Chris Olah'], ['theory']],
+  ['Graph Neural Networks', 'Message passing over nodes and edges.', ['Graph Theory', 'Knowledge Graphs'], ['architecture']],
+  ['Knowledge Graphs', 'Entities and typed relations. A vault is a messy one.', ['Graph Theory', 'Graph Neural Networks', 'Second Brain', 'Zettelkasten'], ['structure']],
+  ['Graph Theory', 'Nodes, edges, hubs, communities, small worlds.', ['Knowledge Graphs', 'Small-World Networks', 'Connectome'], ['structure']],
+  ['Small-World Networks', 'Short paths and high clustering. Brains and good note vaults have both.', ['Graph Theory', 'Connectome'], ['structure']],
+];
+
+export const IDEAS: Concept[] = [
+  ['Second Brain', 'An external system that captures, connects and resurfaces what you learn.', ['Zettelkasten', 'PARA Method', 'Retrieval-Augmented Generation', 'Building a Second Brain'], ['pkm']],
+  ['Zettelkasten', 'Small atomic notes, densely linked. Ideas emerge from the links.', ['Second Brain', 'Niklas Luhmann', 'Atomic Notes', 'Cognitive Maps'], ['pkm']],
+  ['Atomic Notes', 'One idea per note, titled as a claim.', ['Zettelkasten', 'Evergreen Notes'], ['pkm']],
+  ['Evergreen Notes', 'Notes that grow and get refined over years.', ['Atomic Notes', 'Writing to Think'], ['pkm']],
+  ['PARA Method', 'Projects, Areas, Resources, Archive.', ['Second Brain', 'Weekly Review'], ['pkm']],
+  ['Weekly Review', 'Fifteen minutes that keep the whole system honest.', ['PARA Method', 'Morning Routine'], ['habits']],
+  ['Writing to Think', 'You do not know what you think until you try to write it.', ['Evergreen Notes', 'Prompt Engineering', 'Creativity'], ['writing']],
+  ['Spaced Repetition', 'Review just before you forget. Compounding recall.', ['Memory Consolidation', 'Forgetting Curve', 'Anki'], ['learning']],
+  ['Forgetting Curve', 'Memory decays exponentially, unless refreshed.', ['Spaced Repetition', 'Hermann Ebbinghaus'], ['learning']],
+  ['Deliberate Practice', 'Targeted work at the edge of ability, with feedback.', ['Neuroplasticity', 'Motor Learning', 'Flow State', 'Deep Work'], ['learning']],
+  ['Flow State', 'Full absorption in a task whose difficulty matches your skill.', ['Deliberate Practice', 'Mind Wandering', 'Deep Work'], ['attention']],
+  ['Deep Work', 'Long, uninterrupted, cognitively demanding blocks.', ['Flow State', 'Executive Function', 'Attention (Neuroscience)', 'Cal Newport'], ['attention']],
+  ['Creativity', 'Remote association plus a good filter.', ['Default Mode Network', 'Mind Wandering', 'Writing to Think', 'Combinatorial Ideas'], ['creativity']],
+  ['Combinatorial Ideas', 'New ideas are mostly old ideas in unexpected pairs.', ['Creativity', 'Zettelkasten'], ['creativity']],
+  ['Chunking', 'Packing several items into one unit to beat working-memory limits.', ['Working Memory', 'Deliberate Practice'], ['learning']],
+  ['Cognitive Load', 'Intrinsic, extraneous and germane. Cut the second.', ['Working Memory', 'Information Design'], ['learning']],
+  ['Information Design', 'Make the structure visible. Tufte was right.', ['Cognitive Load', 'Vault 3D', 'Edward Tufte'], ['design']],
+  ['Habit Loop', 'Cue, routine, reward.', ['Dopamine', 'Morning Routine', 'Motor Learning'], ['habits']],
+  ['Morning Routine', 'Light, water, ten minutes of writing, no phone.', ['Circadian Rhythm', 'Habit Loop', 'Weekly Review'], ['habits']],
+  ['Anki', 'Flashcards with an algorithm. Boring and magical.', ['Spaced Repetition'], ['tools']],
+  ['Building a Second Brain', 'Tiago Forte\'s capture-organise-distill-express workflow.', ['Second Brain', 'PARA Method', 'Tiago Forte'], ['pkm']],
+];
+
+export const PEOPLE: Concept[] = [
+  ['Donald Hebb', 'Canadian psychologist, 1949, "The Organization of Behavior".', ['Hebbian Learning'], ['person']],
+  ['Santiago Ramón y Cajal', 'Drew the neuron. Father of modern neuroscience.', ['Synaptic Plasticity', 'Connectome'], ['person']],
+  ['John O\'Keefe', 'Discovered place cells in 1971. Nobel 2014.', ['Place Cells'], ['person']],
+  ['Hubel and Wiesel', 'Mapped orientation-selective cells in cat visual cortex.', ['Visual Cortex', 'Convolutional Networks'], ['person']],
+  ['Hermann Ebbinghaus', 'Measured forgetting on himself with nonsense syllables.', ['Forgetting Curve'], ['person']],
+  ['Geoffrey Hinton', 'Persistence on backprop and deep nets paid off.', ['Backpropagation', 'Hebbian Learning'], ['person']],
+  ['Yann LeCun', 'Convolutional networks for handwritten digits, 1989.', ['Convolutional Networks'], ['person']],
+  ['Claude Shannon', 'Information theory. Also built a juggling robot.', ['Large Language Models', 'Information Design'], ['person']],
+  ['Alan Turing', 'Computability, morphogenesis, and the imitation game.', ['Large Language Models', 'Claude Shannon'], ['person']],
+  ['Ada Lovelace', 'Saw that machines might manipulate symbols, not just numbers.', ['Alan Turing', 'Creativity'], ['person']],
+  ['Niklas Luhmann', 'Wrote 70 books with a 90,000-card slip box.', ['Zettelkasten'], ['person']],
+  ['Tiago Forte', 'Popularised the second brain.', ['Building a Second Brain'], ['person']],
+  ['Cal Newport', 'Deep work, digital minimalism.', ['Deep Work'], ['person']],
+  ['Chris Olah', 'Made neural networks look understandable.', ['Mechanistic Interpretability', 'Information Design'], ['person']],
+  ['Edward Tufte', 'Data-ink ratio, small multiples, sparklines.', ['Information Design'], ['person']],
+];
+
+export const BOOKS: Concept[] = [
+  ['Thinking, Fast and Slow', 'System 1 vs System 2. A catalogue of how intuition fails.', ['Cognitive Load', 'Executive Function'], ['book']],
+  ['Gödel, Escher, Bach', 'Strange loops, self-reference and the nature of mind.', ['Creativity', 'Alan Turing'], ['book']],
+  ['The Organization of Behavior', 'Hebb\'s 1949 classic. The cell assembly is born here.', ['Donald Hebb', 'Hebbian Learning'], ['book']],
+  ['Why We Sleep', 'Popular, occasionally overstated, still a good entry point.', ['Sleep', 'Memory Consolidation'], ['book']],
+  ['How to Take Smart Notes', 'The Zettelkasten method explained for a general audience.', ['Zettelkasten', 'Niklas Luhmann', 'Atomic Notes'], ['book']],
+  ['Deep Work (Book)', 'The full argument for depth over busyness.', ['Deep Work', 'Cal Newport'], ['book']],
+  ['The Visual Display of Quantitative Information', 'A masterclass in honest graphics.', ['Edward Tufte', 'Information Design'], ['book']],
+  ['Deep Learning (Goodfellow)', 'The reference textbook of the 2010s.', ['Backpropagation', 'Gradient Descent', 'Generalization'], ['book']],
+  ['Sutton and Barto - Reinforcement Learning', 'Sutton and Barto. Free online, endlessly useful.', ['Reinforcement Learning', 'Temporal Difference'], ['book']],
+  ['The Mind Illuminated', 'Meditation as attention training with a clear roadmap.', ['Attention (Neuroscience)', 'Mind Wandering'], ['book']],
+  ['Peak', 'The science of deliberate practice.', ['Deliberate Practice', 'Neuroplasticity'], ['book']],
+  ['Building a Second Brain (Book)', 'PARA and CODE in practice.', ['Building a Second Brain', 'PARA Method'], ['book']],
+  ['Neuroscience: Exploring the Brain', 'Bear, Connors and Paradiso. Heavy, thorough.', ['Hippocampus', 'Cerebellum', 'Visual Cortex'], ['book']],
+  ['Information Theory, Inference and Learning Algorithms', 'MacKay. Free PDF, a joy.', ['Claude Shannon', 'Generalization'], ['book']],
+];
+
+export const PROJECTS: Concept[] = [
+  ['Vault 3D', 'This very app: your notes as a hologram, controlled by hand.', ['Information Design', 'Hand Tracking', 'Second Brain', 'Brain Atlas'], ['project', 'active']],
+  ['Hand Tracking', 'Webcam hands to gestures with MediaPipe, entirely in the browser.', ['Vault 3D', 'One Euro Filter', 'Gesture Design'], ['project', 'active']],
+  ['One Euro Filter', 'Adaptive low-pass: smooth when slow, responsive when fast.', ['Hand Tracking'], ['project']],
+  ['Gesture Design', 'Pinch, point, fist, swipe. Fewer gestures, more reliable.', ['Hand Tracking', 'Cognitive Load'], ['project']],
+  ['Brain Atlas', 'An interactive map of regions and their connections.', ['Connectome', 'Vault 3D', 'Cerebellum'], ['project']],
+  ['Notes Chatbot', 'Ask questions to my vault using retrieval.', ['Retrieval-Augmented Generation', 'Embeddings', 'Second Brain'], ['project', 'active']],
+  ['Sleep Tracker', 'Correlating wake time, light exposure and recall.', ['Sleep', 'Circadian Rhythm', 'Morning Routine'], ['project']],
+  ['Flashcard Generator', 'LLM drafts cards from my notes; I edit and review them.', ['Anki', 'Spaced Repetition', 'Large Language Models'], ['project']],
+  ['Reading Queue', 'Stack of papers and books, ranked by curiosity.', ['Weekly Review', 'Thinking, Fast and Slow'], ['project']],
+  ['Neural Synth', 'A tiny synth whose parameters are driven by a small network.', ['Creativity', 'Large Language Models'], ['project', 'fun']],
+  ['Graph Layout Experiments', 'Force-directed vs spectral vs brain-shaped layouts.', ['Graph Theory', 'Vault 3D', 'Small-World Networks'], ['project']],
+  ['Learning in Public', 'Publishing notes weekly to force clearer thinking.', ['Writing to Think', 'Evergreen Notes'], ['project']],
+];
+
+export const GHOSTS = ['Predictive Coding', 'Free Energy Principle', 'Active Inference', 'Spiking Neural Networks', 'Neuromorphic Hardware', 'Meditation Log', 'Reading List 2027'];
+
+const TOPICS_FOR_JOURNAL = ['Hippocampus', 'Sleep', 'Transformers', 'Zettelkasten', 'Deliberate Practice', 'Vault 3D', 'Hand Tracking', 'Spaced Repetition', 'Dopamine', 'Flow State', 'Notes Chatbot', 'Embeddings', 'Creativity', 'Deep Work', 'Graph Theory', 'Memory Consolidation', 'Connectome', 'Reinforcement Learning', 'Weekly Review', 'Mind Wandering'];
+
+const JOURNAL_LINES = [
+  'Spent the morning on [[{a}]]. It connects more to [[{b}]] than I expected.',
+  'Read about [[{a}]] and finally saw how it relates to [[{b}]]. Worth an atomic note.',
+  'Stuck on [[{a}]] until a walk, then it clicked. See also [[{b}]].',
+  'Experiment day: tried applying [[{a}]] to [[{b}]]. Partial success.',
+  'Reviewed my notes on [[{a}]]. Gaps around [[{b}]] — to revisit.',
+  'Conversation about [[{a}]] changed how I think about [[{b}]].',
+];
+
+export { TOPICS_FOR_JOURNAL, JOURNAL_LINES };
