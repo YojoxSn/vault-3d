@@ -8,12 +8,8 @@
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue)
 ![100% local](https://img.shields.io/badge/privacy-100%25_local-brightgreen)
-![Three.js](https://img.shields.io/badge/Three.js-WebGL-black)
-![MediaPipe](https://img.shields.io/badge/MediaPipe-hand_tracking-orange)
 
-<img src="docs/hero.png" alt="A vault of 200 notes as a glowing hologram orb: height is time, wedges are folders" width="860">
-
-*Tony Stark's lab, but for your notes. No install: open the page, point your webcam at your hands.*
+<img src="images/hero.png" alt="A vault of notes as a glowing hologram orb: height is time, wedges are folders" width="860">
 
 [Français](README.fr.md)
 
@@ -21,17 +17,21 @@
 
 ---
 
-## Try it in 10 seconds
+## What is this?
 
-1. Open the **[live demo](https://YojoxSn.github.io/vault-3d/)** and click **Explore the demo**.
+Vault 3D turns the notes of an [Obsidian](https://obsidian.md) vault into an **interactive 3D hologram**: every note is a glowing sphere, every link a light beam, and you can rotate, zoom and open notes with **your hands, through your webcam**, like Tony Stark in Iron Man.
+
+It runs **entirely in your browser**: your notes and your camera never leave your computer. This whole project was built with **[Claude Code](https://claude.com/claude-code) from a prompt**, and the prompt is below so you can do the same.
+
+## Try it
+
+1. Open the **[live demo](https://YojoxSn.github.io/vault-3d/)** (a fictional vault of 198 notes, nothing to install).
 2. Press **H**, allow the camera, hold up your hand (good light, 40–80 cm from the camera).
-3. Or **drop your own vault folder** on the page. Your notes are parsed inside your browser tab and **never uploaded**.
+3. Or **drop your own vault folder** on the page. It is read inside your browser tab and is never uploaded.
 
-## Build it yourself with one prompt
+## The prompt
 
-This project started as **a prompt pasted into [Claude Code](https://claude.com/claude-code)**. You write this, you get this.
-
-**1. Paste this prompt** into Claude Code, started in an empty folder (short English version; the complete original French prompt is in [docs/PROMPTS.md](docs/PROMPTS.md)):
+Paste this into Claude Code, started in an **empty folder** (not in your vault). It is a short English version; the complete original French prompt is in **[PROMPT.md](PROMPT.md)**.
 
 <details>
 <summary><b>Show the prompt</b></summary>
@@ -66,139 +66,56 @@ At the end, give me the exact commands to install and run it.
 
 </details>
 
-**2. Get this result:**
+**What to expect.** The prompt gives you a working first version. An AI writes the code, so two runs will not give the exact same files. Hand tracking may need a round of tuning for your webcam: tell Claude Code what feels wrong. This repository is that result, plus polish (Orb mode, a demo vault, tests, one-click deployment).
 
-<img src="docs/demo.gif" alt="Animated demo: the orb turns, zooms in, a note lights up with its neighbours and its panel opens" width="860">
+## The result
 
-*Captured from the [live demo](https://YojoxSn.github.io/vault-3d/) with mouse and keyboard. A clip of the hand control itself is coming.*
+<img src="images/demo.gif" alt="Animated demo: the orb turns, zooms in, a note lights up with its neighbours and its panel opens" width="860">
 
-**Honest notes**
-- The prompt gives you a **working first version**. This repository goes further: Orb mode, a public demo vault, drag-and-drop loading, tests and one-click deployment.
-- An AI writes the code, so **two runs will not give the exact same result**. Expect the same idea, not the same files.
-- Hand-tracking thresholds depend on your webcam and lighting, so you may need a round of tuning: tell Claude Code what feels wrong.
-- The whole method, the problems met and the second prompt: [How it was made](docs/HOW-IT-WAS-MADE.md).
+*Captured from the live demo with mouse and keyboard. A clip of the hand control is coming.*
 
-## Hand gestures
+<img src="images/note-panel.png" alt="A note with its links, neighbours lit up" width="860">
+
+<img src="images/graph-mode.png" alt="Free-form network mode (press O)" width="860">
+
+<img src="images/real-vault-hands.png" alt="First version on a real 2,054-note vault, hands mode on (folder names blurred, camera view replaced)" width="860">
+
+*First version on a real 2,054-note vault, hands mode on. Folder names are blurred and the camera view is replaced for privacy.*
+
+## Controls
 
 | Gesture | Effect |
 |---|---|
-| ✋ Open hand, moving | Rotate the brain, it follows your palm |
+| ✋ Open hand, moving | Rotate |
 | 🤏 Quick pinch on a sphere | Fly to the note and open it |
 | 🤏 Pinch, hold and move | Grab and spin |
-| 🤏🤏 Two hands pinched, spread or bring together | Zoom in / out, like Tony Stark |
-| ☝️ Pointing | A glowing 3D cursor lights up the note and its neighbours |
+| 🤏🤏 Two hands pinched, spread / bring together | Zoom |
+| ☝️ Pointing | 3D cursor, lights up the note and its neighbours |
 | ✊ Fist, held 0.6 s | Freeze / resume the auto-rotation |
 | 👋 Fast swipe left / right | Previous / next linked note |
-| 🙌 Both palms toward the camera, 0.6 s | Recenter the view |
+| 🙌 Both palms toward the camera | Recenter |
 
-Everything also works with mouse and keyboard.
+Keys: `/` search · `O` orb / free network · `B` brain shape · `G` hologram effect · `H` hands · `R` recenter · `Space` pause · `Esc` close.
 
-<img src="docs/note-panel.png" alt="Note panel with outgoing and incoming links, neighbours lit up" width="860">
+**Orb mode** (default): notes sit on a glass globe. Height = time (newest at the north pole), wedge = folder, well-connected notes sink toward the glowing core.
 
-<img src="docs/graph-mode.png" alt="Free-form network mode (press O)" width="860">
-
-*Same vault in free-form network mode (`O`).*
-
-## Features
-
-- **Orb mode** (default): your notes on a glass globe. **Height = time** (newest at the north pole), **wedge = folder**, well-connected notes sink toward the glowing crystal core. Press `O` to switch to the free-form network.
-- **One sphere per note**: size = number of connections, colour = root folder. Notes that are linked but do not exist yet appear as **wireframe ghosts**.
-- **Glowing links with flowing particles** showing link direction, bloom, fog, star field, scanlines and grain (toggle with `G`).
-- **Full note content** in the side panel (Markdown rendered and sanitised), with clickable incoming / outgoing links, tags, dates and word count.
-- **Search** titles *and* content (`/`), filter by folder and tag, hide orphans or ghosts.
-- **"Open in Obsidian"** button (`obsidian://` deep link).
-- **Brain shape** (`B`): two hemispheres, balanced by folder.
-- **Built for big vaults**: instanced meshes, one geometry for all links, layout computed in a Web Worker. Measured on a synthetic vault of 2,000 notes and 16,000 links: 0.2 s to parse, about 5 s to lay out while the UI stays responsive.
-- **Read-only**: it never writes to your vault.
-
-| Key | Action |
-|---|---|
-| `/` | Search |
-| `R` | Recenter |
-| `Space` | Pause the auto-rotation |
-| `O` | Orb mode / free-form network |
-| `B` | Brain shape |
-| `G` | Hologram effect |
-| `H` | Hands mode |
-| `← →` | Previous / next linked note |
-| `M` | Hide / show the menu |
-| `Esc` | Close panel / search |
-
-## Run it locally
+## Run it on your computer
 
 ```bash
 git clone https://github.com/YojoxSn/vault-3d.git
-cd vault-3d
+cd vault-3d/app
 npm install
-npm run dev          # http://localhost:5173 — demo, or drop a folder on the page
+npm run dev          # http://localhost:5173
 ```
 
-### Load your vault automatically in dev
+To load your vault automatically, copy `.env.example` to `.env` and set `VAULT_PATH`. Your notes are read-only, and `.env` plus the generated files are git-ignored. More details for developers: [app/README.md](app/README.md).
 
-```bash
-cp .env.example .env        # then set VAULT_PATH=/path/to/your/vault
-npm run dev                 # regenerates the graph from your vault at every start
-npm run dev:live            # also watches the vault and reloads on changes
-```
+## Honest limits
 
-`.env`, `public/graph.json` and `public/content.json` (which contain your note text) are git-ignored.
-Other useful commands:
-
-```bash
-npm run build:graph -- "/path/to/vault"   # generate public/graph.json only
-npm test                                  # parser + gesture tests (no camera needed)
-npm run build                             # production build in dist/
-```
-
-## Deploy your own demo (GitHub Pages)
-
-1. Push this repo to GitHub.
-2. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
-3. Push to `main`. The workflow in `.github/workflows/pages.yml` runs the tests, builds, and publishes.
-
-## How it works
-
-```
-src/parser   Markdown → graph: wikilinks (aliases, headings, paths), md links, tags, YAML frontmatter,
-             Obsidian-style name resolution, ghost notes. Pure functions: same code in browser and CLI.
-src/scene    Three.js: InstancedMesh spheres (custom shader: fresnel rim, pulse, fog), one LineSegments for
-             all links, GPU-animated particles, UnrealBloom + hologram pass. d3-force-3d runs in a Worker.
-src/hands    MediaPipe HandLandmarker → One Euro filter → pure gesture recognition → state machine
-             (debounce, hysteresis, click vs grab, two-hand zoom, swipe, fist-hold, palms).
-src/ui       Panel, search, filters, landing page, draggable camera window.
-```
-
-Hand tracking runs **on-device** in your browser (WASM + a 7.8 MB model shipped in `public/models/`). The webcam stream is never recorded or sent anywhere.
-
-## Status and honest limits
-
-- The gesture logic is covered by unit tests on **simulated hands**, and the full pipeline (camera → model → engine) runs in a real browser. **Thresholds still need tuning on more real webcams and lighting**: if a gesture feels off, open an issue with your setup. Constants live in `src/hands/engine.ts` (`CFG`) and `src/hands/gestures.ts`.
-- If "both palms" fires when you show the *backs* of your hands, set `PALM_FLIP = true` in `src/hands/gestures.ts`.
-- The frame rate on a real GPU with 2,000+ notes has not been benchmarked yet (parsing and layout have). Reports welcome.
-- Needs a browser with WebGL2 and, for hands mode, camera access over HTTPS or `localhost`.
-- Attachments (images, PDF) are ignored; only `.md` notes become nodes.
-- "Brain shape" is an experiment: it works best with a large vault.
-
-## How it was made
-
-Built in conversation with [Claude Code](https://claude.com/claude-code) from two prompts, then packaged for everyone (demo vault, drag-and-drop, tests, Pages).
-
-- 📝 **[The prompts](docs/PROMPTS.md)**: copy them, put your own vault path, get your own version.
-- 🛠 **[How it was made](docs/HOW-IT-WAS-MADE.md)**: the method, the problems met, how to reproduce and publish your own copy.
-
-<img src="docs/real-vault-hands.png" alt="First version of the project on a real 2,054-note vault, hands mode on" width="860">
-
-*The first version on a real 2,054-note vault, hands mode on (folder names blurred).*
-
-## Contributing
-
-PRs and ideas welcome, see [CONTRIBUTING.md](CONTRIBUTING.md). Good first topics: gesture tuning on your webcam, Logseq support, better brain layout.
-
-## Credits
-
-[Three.js](https://threejs.org) · [MediaPipe Tasks Vision](https://developers.google.com/mediapipe) · [d3-force-3d](https://github.com/vasturiano/d3-force-3d) · [marked](https://marked.js.org) · [DOMPurify](https://github.com/cure53/DOMPurify) · Gesture smoothing: the [One Euro filter](https://gery.casiez.net/1euro/).
-Not affiliated with Obsidian or Marvel.
+- The gestures are tested on **simulated hands** and in a real browser pipeline, but **webcams, lighting and hands vary**: thresholds may need tuning. Please open an issue with your setup.
+- The frame rate on a real GPU with 2,000+ notes has not been benchmarked yet (parsing and layout have: 0.2 s and about 5 s for 2,000 notes).
+- Only `.md` notes become nodes; attachments are ignored.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE). Not affiliated with Obsidian or Marvel.

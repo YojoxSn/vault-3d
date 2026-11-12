@@ -24,17 +24,21 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
-      - run: npm run typecheck
-      - run: npm test
-      - run: npm run build
+          cache-dependency-path: app/package-lock.json
+      - name: Install, check, test, build
+        working-directory: app
+        run: |
+          npm ci
+          npm run typecheck
+          npm test
+          npm run build
       - name: Absolute social-preview URL (crawlers ignore relative og:image)
         run: |
           URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/social-preview.png"
-          sed -i "s#content=\"./social-preview.png\"#content=\"$URL\"#" dist/index.html
+          sed -i "s#content=\"./social-preview.png\"#content=\"$URL\"#" app/dist/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: app/dist
 
   deploy:
     if: github.event_name != 'pull_request'

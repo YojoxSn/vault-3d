@@ -6,7 +6,7 @@
 
 [![Démo en ligne](https://img.shields.io/badge/▶_démo_en_ligne-essayer-00e5ff?style=for-the-badge)](https://YojoxSn.github.io/vault-3d/)
 
-<img src="docs/hero.png" alt="Un vault de 200 notes en réseau 3D lumineux" width="860">
+<img src="images/hero.png" alt="Un vault de notes en hologramme : la hauteur est le temps, les secteurs sont les dossiers" width="860">
 
 [English](README.md)
 
@@ -14,17 +14,21 @@
 
 ---
 
-## Essayer en 10 secondes
+## C'est quoi ?
 
-1. Ouvrez la **[démo en ligne](https://YojoxSn.github.io/vault-3d/)** et cliquez sur **Explore the demo**.
+Vault 3D transforme les notes d'un vault [Obsidian](https://obsidian.md) en **hologramme 3D interactif**: chaque note est une sphère lumineuse, chaque lien un rayon de lumière, et vous tournez, zoomez et ouvrez les notes **avec vos mains, via la webcam**, comme Tony Stark dans Iron Man.
+
+Tout tourne **dans votre navigateur**: vos notes et votre caméra ne quittent jamais votre ordinateur. Ce projet a été construit avec **[Claude Code](https://claude.com/claude-code) à partir d'un prompt**, et le prompt est ci-dessous pour que vous puissiez faire pareil.
+
+## L'essayer
+
+1. Ouvrez la **[démo en ligne](https://YojoxSn.github.io/vault-3d/)** (un vault fictif de 198 notes, rien à installer).
 2. Appuyez sur **H**, autorisez la caméra, levez la main (bonne lumière, 40 à 80 cm de la caméra).
-3. Ou **déposez le dossier de votre vault** sur la page. Vos notes sont lues dans l'onglet du navigateur et **ne sont jamais envoyées**.
+3. Ou **déposez le dossier de votre vault** sur la page: il est lu dans l'onglet de votre navigateur et n'est jamais envoyé.
 
-## Le faire vous-même avec un prompt
+## Le prompt
 
-Ce projet est parti d'**un prompt collé dans [Claude Code](https://claude.com/claude-code)**. Vous écrivez ça, vous obtenez ça.
-
-**1. Collez ce prompt** dans Claude Code, lancé dans un dossier vide (version courte; le prompt original complet est dans [docs/PROMPTS.md](docs/PROMPTS.md)):
+Collez-le dans Claude Code, lancé dans un **dossier vide** (pas dans votre vault). Voici la version courte; le prompt original complet est dans **[PROMPT.md](PROMPT.md)**.
 
 <details>
 <summary><b>Voir le prompt</b></summary>
@@ -59,67 +63,49 @@ La vidéo ne quitte jamais le navigateur.
 
 </details>
 
-**2. Vous obtenez ce résultat:**
+**À quoi s'attendre.** Le prompt donne une première version qui marche. C'est une IA qui écrit le code: deux essais ne donneront pas exactement les mêmes fichiers. Les gestes demandent parfois un réglage selon votre webcam: dites à Claude Code ce qui ne va pas. Ce dépôt, c'est ce résultat plus du soin (mode Orbe, vault de démo, tests, déploiement en un clic).
 
-<img src="docs/demo.gif" alt="Démo animée : l'orbe tourne, zoome, une note s'éclaire avec ses voisines et son panneau s'ouvre" width="860">
+## Le résultat
 
-*Capturé depuis la [démo en ligne](https://YojoxSn.github.io/vault-3d/) à la souris et au clavier. Un extrait du contrôle par les mains arrive.*
+<img src="images/demo.gif" alt="Démo animée : l'orbe tourne, zoome, une note s'éclaire avec ses voisines et son panneau s'ouvre" width="860">
 
-**À savoir, honnêtement**
-- Le prompt donne une **première version qui marche**. Ce dépôt va plus loin: mode Orbe, vault de démo public, glisser-déposer, tests et déploiement en un clic.
-- C'est une IA qui écrit le code: **deux essais ne donneront pas exactement le même résultat**, mais la même idée.
-- Les seuils des gestes dépendent de votre webcam et de la lumière; il faudra peut-être un tour de réglage.
+*Capturé depuis la démo en ligne, à la souris et au clavier. Un extrait avec les mains arrive.*
 
-## Le mode Orbe
+<img src="images/note-panel.png" alt="Une note avec ses liens, voisines éclairées" width="860">
 
-Par défaut, vos notes sont posées sur un **globe de verre**: la **hauteur = le temps** (les plus récentes au pôle nord), le **secteur = le dossier**, et les notes très reliées s'enfoncent vers le cristal lumineux du centre. Touche `O` pour passer au réseau libre.
+<img src="images/real-vault-hands.png" alt="Première version sur un vrai vault de 2 054 notes, mode mains actif" width="860">
 
-## Gestes
+## Commandes
 
 | Geste | Effet |
 |---|---|
-| ✋ Main ouverte qui bouge | Fait tourner le cerveau |
-| 🤏 Pincement bref sur une sphère | Vole vers la note et l'ouvre |
-| 🤏 Pincement maintenu qui bouge | Attrape et fait tourner |
-| 🤏🤏 Deux mains pincées qui s'écartent / se rapprochent | Zoom avant / arrière |
-| ☝️ Index pointé | Curseur 3D qui éclaire la note et ses voisines |
-| ✊ Poing tenu 0,6 s | Fige / relance la rotation automatique |
+| ✋ Main ouverte qui bouge | Tourner |
+| 🤏 Pincement bref sur une sphère | Voler vers la note et l'ouvrir |
+| 🤏 Pincement maintenu qui bouge | Attraper et faire tourner |
+| 🤏🤏 Deux mains pincées qui s'écartent / se rapprochent | Zoom |
+| ☝️ Index pointé | Curseur 3D, éclaire la note et ses voisines |
+| ✊ Poing tenu 0,6 s | Fige / relance la rotation |
 | 👋 Balayage rapide gauche / droite | Note liée précédente / suivante |
-| 🙌 Deux paumes vers la caméra, 0,6 s | Recentre la vue |
+| 🙌 Deux paumes vers la caméra | Recentrer |
 
-Tout fonctionne aussi à la souris et au clavier.
+Touches: `/` recherche · `O` orbe / réseau libre · `B` cerveau · `G` hologramme · `H` mains · `R` recentrer · `Espace` pause · `Échap` fermer.
 
-## Lancer en local
+**Mode Orbe** (par défaut): les notes sont sur un globe de verre. Hauteur = temps (les plus récentes au pôle nord), secteur = dossier, les notes très reliées s'enfoncent vers le cœur lumineux.
+
+## Lancer chez vous
 
 ```bash
 git clone https://github.com/YojoxSn/vault-3d.git
-cd vault-3d
+cd vault-3d/app
 npm install
 npm run dev          # http://localhost:5173
 ```
 
-Pour charger votre vault automatiquement:
+Pour charger votre vault automatiquement, copiez `.env.example` en `.env` et renseignez `VAULT_PATH`. Votre vault est en lecture seule, et `.env` ainsi que les fichiers générés sont ignorés par git.
 
-```bash
-cp .env.example .env        # puis renseignez VAULT_PATH=/chemin/vers/votre/vault
-npm run dev                 # régénère le graphe depuis votre vault à chaque lancement
-```
+## Limites assumées
 
-`.env`, `public/graph.json` et `public/content.json` (qui contiennent le texte de vos notes) sont ignorés par git. Le vault est lu en **lecture seule**.
-
-## Comment c'est fait
-
-Construit en conversation avec [Claude Code](https://claude.com/claude-code) à partir de deux prompts, puis emballé pour tout le monde (vault de démo, glisser-déposer, tests, Pages).
-
-- 📝 **[Les prompts](docs/PROMPTS.md)**: copiez-les, mettez le chemin de votre vault, obtenez votre version.
-- 🛠 **[Comment ça a été fait](docs/COMMENT-CA-A-ETE-FAIT.md)**: la méthode, les problèmes rencontrés, comment refaire et publier votre copie.
-
-<img src="docs/real-vault-hands.png" alt="Première version sur un vrai vault de 2 054 notes, mode mains actif" width="860">
-
-## Limites connues
-
-- Les gestes sont testés par des tests unitaires sur des **mains simulées** et la chaîne complète tourne dans un vrai navigateur, mais **les seuils restent à affiner sur d'autres webcams et éclairages**. Les constantes sont dans `src/hands/engine.ts` (`CFG`) et `src/hands/gestures.ts`.
-- Si « deux paumes » se déclenche avec le dos des mains, mettez `PALM_FLIP = true` dans `src/hands/gestures.ts`.
-- La forme « cerveau » est expérimentale.
+- Les gestes sont testés sur des **mains simulées** et dans un vrai navigateur, mais **webcams et éclairages varient**: les seuils peuvent demander un réglage.
+- La fluidité sur un vrai GPU avec plus de 2 000 notes n'est pas encore mesurée.
 
 Licence [MIT](LICENSE). Non affilié à Obsidian ni à Marvel.
