@@ -117,7 +117,7 @@ export class App {
       onFiles: (list) => this.openFileList(list),
     });
     this.root.classList.add('is-landing');
-    if (typeof __REPO_URL__ === 'string' && __REPO_URL__) this.landing.setRepoUrl(__REPO_URL__);
+    if (typeof __REPO_URL__ === 'string' && __REPO_URL__) { this.landing.setRepoUrl(__REPO_URL__); this.sidebar.setRepoUrl(__REPO_URL__); }
     else document.getElementById('l-gh')?.remove();
   }
 
@@ -411,7 +411,7 @@ export class App {
       url: location.host + location.pathname.replace(/\/$/, ''),
     });
     const how = await deliverCard(blob);
-    this.toast(how === 'shared' ? 'Card shared' : 'Card saved: my-second-brain.png', 3200);
+    this.toast(how === 'shared' ? 'Card shared. If you like Vault 3D, a star on GitHub helps a lot.' : 'Card saved: my-second-brain.png. If you like Vault 3D, a star on GitHub helps a lot.', 4200);
   }
 
   private setHolo(v: boolean) { this.holo = v; this.stage.setHologram(v); this.sidebar.setFlag('holo', v); }

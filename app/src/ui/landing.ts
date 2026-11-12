@@ -17,7 +17,7 @@ export function createLanding(root: HTMLElement, h: LandingHandlers) {
       <div class="small">
         or drop a folder anywhere on this page<br>
         <b>100 % local</b> — your notes and your camera never leave this browser tab.<br>
-        <a href="https://github.com/" id="l-gh" target="_blank" rel="noopener">Source on GitHub</a>
+        <a href="https://github.com/" id="l-gh" target="_blank" rel="noopener">⭐ Star on GitHub</a>
       </div>
       <div class="err" id="l-err"></div>
       <input type="file" id="l-input" webkitdirectory directory multiple hidden />

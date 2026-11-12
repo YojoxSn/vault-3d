@@ -53,6 +53,7 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
       <button class="btn" id="b-hands">✋ Hands mode <kbd>H</kbd></button>
       <button class="btn" id="b-center">⌖ Recenter <kbd>R</kbd></button>
       <button class="btn" id="b-share" title="Saves a picture of your vault (counts only, no note titles)">📸 Share card <kbd>P</kbd></button>
+      <a class="btn" id="b-star" target="_blank" rel="noopener" style="display:none">⭐ Star on GitHub</a>
     </div>`;
   const hint = document.createElement('div');
   hint.id = 'hint';
@@ -126,6 +127,8 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
         ? list.map((r) => `<div class="r" data-i="${r.i}">${esc(r.title)}<small>${esc(r.folder)}</small></div>`).join('')
         : '<div class="r" style="cursor:default;color:var(--muted)">No match</div>';
     },
+    /** Shows the "Star on GitHub" link once the repository address is known (set at build time). */
+    setRepoUrl(url: string) { const a = $<HTMLAnchorElement>('b-star'); a.href = url; a.style.display = 'inline-block'; },
     setInsights(groups: InsightGroup[]) {
       $('insights').innerHTML = groups
         .map((g) => `<div class="ins"><div class="ins-t" title="${esc(g.hint)}">${esc(g.title)}</div>${g.items

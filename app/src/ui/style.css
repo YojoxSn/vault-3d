@@ -141,3 +141,5 @@ select { background: rgba(0,0,0,.4); color: inherit; border: 1px solid var(--cya
 #insights .r { padding: 2px 4px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-radius: 4px; }
 #insights .r:hover { background: rgba(0,229,255,.14); }
 #insights .r small { color: var(--muted); margin-left: 6px; }
+
+#b-star { text-decoration: none; color: inherit; }
