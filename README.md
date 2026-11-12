@@ -27,6 +27,57 @@
 2. Press **H**, allow the camera, hold up your hand (good light, 40–80 cm from the camera).
 3. Or **drop your own vault folder** on the page. Your notes are parsed inside your browser tab and **never uploaded**.
 
+## Build it yourself with one prompt
+
+This project started as **a prompt pasted into [Claude Code](https://claude.com/claude-code)**. You write this, you get this.
+
+**1. Paste this prompt** into Claude Code, started in an empty folder (short English version; the complete original French prompt is in [docs/PROMPTS.md](docs/PROMPTS.md)):
+
+<details>
+<summary><b>Show the prompt</b></summary>
+
+```text
+Create an interactive 3D visualization of ALL my Obsidian vault with Three.js,
+controllable with my hands through the webcam, like Tony Stark's hologram in Iron Man.
+
+Context
+- My vault is here: <PATH/TO/MY/VAULT>   (name: <NAME>)
+- Local web app: Vite + TypeScript + Three.js (no heavy framework), started with `npm run dev`.
+
+Step 1 - Import the vault: a Node script walks the vault (ignore .obsidian/, .trash/),
+parses [[wikilinks]], [[Note|alias]], [text](Note.md), #tags and YAML frontmatter tags,
+resolves links like Obsidian does; links to missing notes become "ghost" nodes.
+The vault stays READ-ONLY. Live mode with chokidar.
+
+Step 2 - 3D scene: one glowing sphere per note (size = connections, color = root folder),
+glowing links with particles flowing along them, d3-force-3d layout, bloom, fog, stars,
+scanlines. InstancedMesh: it must stay smooth with 3000+ notes.
+
+Step 3 - Hand control (MediaPipe Tasks Vision): a floating camera window with a neon skeleton.
+Open hand = rotate, pinch = grab / click, two-hand pinch = zoom, pointing = 3D cursor,
+fist = freeze the rotation, swipe = previous / next linked note, two palms = recenter.
+Smooth the hands (One Euro filter). Everything must also work with mouse and keyboard.
+The video never leaves the browser.
+
+Step 4 - Side panel with the full note, search ( / ), filters, "Open in Obsidian" button.
+Step 5 - HUD, color legend, modular code, tests for gesture recognition with simulated points.
+At the end, give me the exact commands to install and run it.
+```
+
+</details>
+
+**2. Get this result:**
+
+<img src="docs/demo.gif" alt="Animated demo: the orb turns, zooms in, a note lights up with its neighbours and its panel opens" width="860">
+
+*Captured from the [live demo](https://YojoxSn.github.io/vault-3d/) with mouse and keyboard. A clip of the hand control itself is coming.*
+
+**Honest notes**
+- The prompt gives you a **working first version**. This repository goes further: Orb mode, a public demo vault, drag-and-drop loading, tests and one-click deployment.
+- An AI writes the code, so **two runs will not give the exact same result**. Expect the same idea, not the same files.
+- Hand-tracking thresholds depend on your webcam and lighting, so you may need a round of tuning: tell Claude Code what feels wrong.
+- The whole method, the problems met and the second prompt: [How it was made](docs/HOW-IT-WAS-MADE.md).
+
 ## Hand gestures
 
 | Gesture | Effect |

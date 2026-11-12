@@ -20,6 +20,56 @@
 2. Appuyez sur **H**, autorisez la caméra, levez la main (bonne lumière, 40 à 80 cm de la caméra).
 3. Ou **déposez le dossier de votre vault** sur la page. Vos notes sont lues dans l'onglet du navigateur et **ne sont jamais envoyées**.
 
+## Le faire vous-même avec un prompt
+
+Ce projet est parti d'**un prompt collé dans [Claude Code](https://claude.com/claude-code)**. Vous écrivez ça, vous obtenez ça.
+
+**1. Collez ce prompt** dans Claude Code, lancé dans un dossier vide (version courte; le prompt original complet est dans [docs/PROMPTS.md](docs/PROMPTS.md)):
+
+<details>
+<summary><b>Voir le prompt</b></summary>
+
+```text
+Crée-moi une visualisation 3D interactive de TOUT mon vault Obsidian avec Three.js,
+contrôlable avec mes mains via la webcam, façon hologramme de Tony Stark dans Iron Man.
+
+Contexte
+- Mon vault se trouve ici : <CHEMIN/VERS/MON/VAULT>   (nom : <NOM>)
+- App web locale : Vite + TypeScript + Three.js (sans framework lourd), lancée avec `npm run dev`.
+
+Étape 1 - Importer le vault : un script Node parcourt le vault (ignorer .obsidian/, .trash/),
+détecte [[wikilinks]], [[Note|alias]], [texte](Note.md), #tags et tags du frontmatter YAML,
+résout les liens comme Obsidian ; un lien vers une note inexistante devient un nœud « fantôme ».
+Le vault reste en LECTURE SEULE. Mode live avec chokidar.
+
+Étape 2 - Scène 3D : une sphère lumineuse par note (taille = connexions, couleur = dossier racine),
+liens lumineux avec des particules qui circulent, disposition d3-force-3d, bloom, brouillard,
+étoiles, scanlines. InstancedMesh : fluide avec 3000+ notes.
+
+Étape 3 - Contrôle par les mains (MediaPipe Tasks Vision) : fenêtre caméra flottante avec squelette néon.
+Main ouverte = tourner, pincement = attraper / cliquer, deux mains pincées = zoom, index pointé = curseur 3D,
+poing = figer la rotation, balayage = note liée précédente / suivante, deux paumes = recentrer.
+Lisse les mains (filtre One Euro). Tout doit aussi marcher à la souris et au clavier.
+La vidéo ne quitte jamais le navigateur.
+
+Étape 4 - Panneau latéral avec la note complète, recherche ( / ), filtres, bouton « Ouvrir dans Obsidian ».
+Étape 5 - HUD, légende des couleurs, code modulaire, tests de reconnaissance des gestes avec des points simulés.
+À la fin, donne-moi les commandes exactes pour installer et lancer.
+```
+
+</details>
+
+**2. Vous obtenez ce résultat:**
+
+<img src="docs/demo.gif" alt="Démo animée : l'orbe tourne, zoome, une note s'éclaire avec ses voisines et son panneau s'ouvre" width="860">
+
+*Capturé depuis la [démo en ligne](https://YojoxSn.github.io/vault-3d/) à la souris et au clavier. Un extrait du contrôle par les mains arrive.*
+
+**À savoir, honnêtement**
+- Le prompt donne une **première version qui marche**. Ce dépôt va plus loin: mode Orbe, vault de démo public, glisser-déposer, tests et déploiement en un clic.
+- C'est une IA qui écrit le code: **deux essais ne donneront pas exactement le même résultat**, mais la même idée.
+- Les seuils des gestes dépendent de votre webcam et de la lumière; il faudra peut-être un tour de réglage.
+
 ## Le mode Orbe
 
 Par défaut, vos notes sont posées sur un **globe de verre**: la **hauteur = le temps** (les plus récentes au pôle nord), le **secteur = le dossier**, et les notes très reliées s'enfoncent vers le cristal lumineux du centre. Touche `O` pour passer au réseau libre.
