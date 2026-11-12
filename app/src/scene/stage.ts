@@ -42,6 +42,7 @@ export class Stage {
   /** When true the stage lowers the quality by itself if the frame rate stays low. */
   autoQuality = true;
   onAutoQuality: (q: Quality) => void = () => {};
+  private snapReq: Array<(c: HTMLCanvasElement) => void> = [];
   private qualityLockUntil = 0;
   private slowSamples = 0;
   private frames = 0;
@@ -145,6 +146,23 @@ export class Stage {
     this.resize();
     this.qualityLockUntil = performance.now() + 4000;
     this.slowSamples = 0;
+  }
+
+  /** Copies the next rendered frame into a canvas (the WebGL buffer is only readable right after a render). */
+  snapshot(): Promise<HTMLCanvasElement> {
+    return new Promise((resolve) => this.snapReq.push(resolve));
+  }
+
+  /** Snapshot of the whole scene framed like the default view, then the camera goes back where it was. */
+  async snapshotFramed(): Promise<HTMLCanvasElement> {
+    const pos = this.camera.position.clone(), target = this.controls.target.clone();
+    this.fly = null;
+    this.recenter(true);
+    const shot = await this.snapshot();
+    this.camera.position.copy(pos);
+    this.controls.target.copy(target);
+    this.controls.update();
+    return shot;
   }
 
   setHologram(on: boolean) {
@@ -265,6 +283,13 @@ export class Stage {
 
     for (const cb of this.frameCbs) cb(dt);
     this.composer.render();
+    if (this.snapReq.length) {
+      const src = this.renderer.domElement;
+      const copy = document.createElement('canvas');
+      copy.width = src.width; copy.height = src.height;
+      copy.getContext('2d')!.drawImage(src, 0, 0);
+      for (const r of this.snapReq.splice(0)) r(copy);
+    }
 
     this.frames++;
     const now = performance.now();

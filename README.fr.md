@@ -90,7 +90,11 @@ La vidéo ne quitte jamais le navigateur.
 | 👋 Balayage rapide gauche / droite | Note liée précédente / suivante |
 | 🙌 Deux paumes vers la caméra | Recentrer |
 
-Touches: `/` recherche · `O` orbe / réseau libre · `B` cerveau · `G` hologramme · `H` mains · `Q` qualité · `R` recentrer · `Espace` pause · `Échap` fermer.
+Touches: `/` recherche · `O` orbe / réseau libre · `B` cerveau · `G` hologramme · `H` mains · `P` carte à partager · `Q` qualité · `R` recentrer · `Espace` pause · `Échap` fermer.
+
+**Insights** (panneau de gauche): votre *colonne vertébrale* (notes les plus connectées), les notes à **écrire ensuite** (liées mais pas encore écrites), les orphelines à **relier**, et les notes très connectées à **revoir**. Un clic et vous y êtes.
+
+**Carte à partager** (`P` ou le bouton 📸): enregistre une image de votre vault avec ses chiffres. Elle ne contient **que des nombres, jamais de titres de notes**: vous pouvez la poster sans risque.
 
 **Mode Orbe** (par défaut): les notes sont sur un globe de verre. Hauteur = temps (les plus récentes au pôle nord), secteur = dossier, les notes très reliées s'enfoncent vers le cœur lumineux.
 

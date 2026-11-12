@@ -97,7 +97,11 @@ At the end, give me the exact commands to install and run it.
 | 👋 Fast swipe left / right | Previous / next linked note |
 | 🙌 Both palms toward the camera | Recenter |
 
-Keys: `/` search · `O` orb / free network · `B` brain shape · `G` hologram effect · `H` hands · `Q` quality · `R` recenter · `Space` pause · `Esc` close.
+Keys: `/` search · `O` orb / free network · `B` brain shape · `G` hologram effect · `H` hands · `P` share card · `Q` quality · `R` recenter · `Space` pause · `Esc` close.
+
+**Insights** (left panel): your *backbone* (most connected notes), notes to **write next** (linked but not written yet), orphans to **connect**, and well-connected notes you may want to **revisit**. Click one to jump to it.
+
+**Share card** (`P` or the 📸 button): saves a picture of your own vault with its numbers. It contains **only counts, never note titles**, so it is safe to post.
 
 **Orb mode** (default): notes sit on a glass globe. Height = time (newest at the north pole), wedge = folder, well-connected notes sink toward the glowing core.
 

@@ -8,10 +8,12 @@ import { STATE_DIM, STATE_HI, STATE_NORMAL, type SceneGraph } from './scene/grap
 import { assignHemispheres, LayoutRunner } from './scene/layout';
 import { computeOrbLayout, createOrbDecor, type OrbDecor } from './scene/orb';
 import { Stage, type Quality } from './scene/stage';
+import { computeInsights, type Insights } from './insights';
 import { createLanding } from './ui/landing';
 import { renderNote } from './ui/markdown';
 import { createPanel, type NoteLinkRef } from './ui/panel';
 import { createSidebar } from './ui/sidebar';
+import { deliverCard, makeShareCard } from './ui/shareCard';
 
 const iso = (t: number) => (t ? new Date(t).toISOString().slice(0, 10) : '—');
 
@@ -55,6 +57,7 @@ export class App {
   private firstFit = true;
   private mouse = { x: -1, y: -1, over: false };
   private toastTimer = 0;
+  private insights: Insights | null = null;
   private qualityMode: 'auto' | Quality = 'auto';
 
   constructor() {
@@ -85,6 +88,7 @@ export class App {
         else this.setBrain(v);
       },
       onQuality: (v) => this.setQualityMode(v),
+      onShare: () => void this.shareCard(),
       onHands: () => void this.toggleHands(),
       onRecenter: () => this.stage.recenter(),
     });
@@ -234,6 +238,8 @@ export class App {
     for (const nd of this.nodes) for (const t of nd.tags) tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
     this.tagList = [...tagCount].sort((a, b) => b[1] - a[1]).slice(0, 16);
     this.renderTags();
+    this.insights = computeInsights(this.nodes, this.inn);
+    this.sidebar.setInsights(this.insights.groups);
     if (data.graph.vaultName) document.title = `${data.graph.vaultName} — Vault 3D`;
   }
   private tagList: Array<[string, number]> = [];
@@ -391,6 +397,21 @@ export class App {
     this.sidebar.setQuality(v);
     try { localStorage.setItem('vault3d-quality', v); } catch { /* ignore */ }
     if (announce) this.toast(`Quality: ${v}`, 1500);
+  }
+
+  /** Saves a picture of the vault: the 3D view plus a few counts, never any note title. */
+  private async shareCard() {
+    if (!this.insights) return;
+    this.toast('Creating your card…', 1500);
+    const view = await this.stage.snapshotFramed();
+    const i = this.insights;
+    const blob = await makeShareCard(view, {
+      notes: i.notes, links: i.links, folders: i.folders,
+      span: i.firstYear && i.lastYear ? `${i.firstYear} → ${i.lastYear}` : null,
+      url: location.host + location.pathname.replace(/\/$/, ''),
+    });
+    const how = await deliverCard(blob);
+    this.toast(how === 'shared' ? 'Card shared' : 'Card saved: my-second-brain.png', 3200);
   }
 
   private setHolo(v: boolean) { this.holo = v; this.stage.setHologram(v); this.sidebar.setFlag('holo', v); }
@@ -585,6 +606,7 @@ export class App {
         case '/': e.preventDefault(); this.sidebar.search.focus(); break;
         case 'r': case 'R': this.stage.recenter(); break;
         case ' ': e.preventDefault(); this.stage.paused = !this.stage.paused; this.toast(this.stage.paused ? 'Rotation paused' : 'Rotation resumed', 1200); break;
+        case 'p': case 'P': void this.shareCard(); break;
         case 'q': case 'Q': { const m = ['auto', 'high', 'medium', 'low'] as const; this.setQualityMode(m[(m.indexOf(this.qualityMode) + 1) % m.length]); break; }
         case 'o': case 'O': this.setOrb(!this.orb); break;
         case 'b': case 'B': this.setBrain(!this.brain); break;

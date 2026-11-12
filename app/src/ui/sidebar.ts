@@ -1,3 +1,5 @@
+import type { InsightGroup } from '../insights';
+
 export interface FolderItem { name: string; color: string; count: number; off: boolean }
 export interface TagItem { tag: string; count: number; on: boolean }
 export interface ResultItem { i: number; title: string; folder: string }
@@ -9,6 +11,7 @@ export interface SidebarHandlers {
   onToggleTag(tag: string): void;
   onQuality(value: 'auto' | 'high' | 'medium' | 'low'): void;
   onFlag(name: 'orphans' | 'ghosts' | 'holo' | 'brain' | 'orb', v: boolean): void;
+  onShare(): void;
   onHands(): void;
   onRecenter(): void;
 }
@@ -35,6 +38,7 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
     <div class="scroll">
       <h4>Folders</h4><div id="folders"></div>
       <h4>Tags</h4><div id="tags" class="chips"></div>
+      <h4>Insights</h4><div id="insights"></div>
       <h4>Display</h4>
       <label class="row"><input type="checkbox" id="f-orph"> Hide orphan notes</label>
       <label class="row"><input type="checkbox" id="f-ghost"> Hide ghost notes (wireframe)</label>
@@ -48,6 +52,7 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
     <div class="btns">
       <button class="btn" id="b-hands">✋ Hands mode <kbd>H</kbd></button>
       <button class="btn" id="b-center">⌖ Recenter <kbd>R</kbd></button>
+      <button class="btn" id="b-share" title="Saves a picture of your vault (counts only, no note titles)">📸 Share card <kbd>P</kbd></button>
     </div>`;
   const hint = document.createElement('div');
   hint.id = 'hint';
@@ -87,6 +92,11 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
   $<HTMLInputElement>('f-brain').addEventListener('change', (e) => h.onFlag('brain', (e.target as HTMLInputElement).checked));
   $<HTMLInputElement>('f-orb').addEventListener('change', (e) => h.onFlag('orb', (e.target as HTMLInputElement).checked));
   $<HTMLSelectElement>('f-quality').addEventListener('change', (e) => h.onQuality((e.target as HTMLSelectElement).value as 'auto' | 'high' | 'medium' | 'low'));
+  $('insights').addEventListener('click', (e) => {
+    const r = (e.target as HTMLElement).closest<HTMLElement>('.r');
+    if (r) h.onPickResult(Number(r.dataset.i));
+  });
+  $('b-share').addEventListener('click', h.onShare);
   $('b-hands').addEventListener('click', h.onHands);
   $('b-center').addEventListener('click', h.onRecenter);
   toggle.addEventListener('click', () => side.classList.toggle('collapsed'));
@@ -115,6 +125,12 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
       results.innerHTML = list.length
         ? list.map((r) => `<div class="r" data-i="${r.i}">${esc(r.title)}<small>${esc(r.folder)}</small></div>`).join('')
         : '<div class="r" style="cursor:default;color:var(--muted)">No match</div>';
+    },
+    setInsights(groups: InsightGroup[]) {
+      $('insights').innerHTML = groups
+        .map((g) => `<div class="ins"><div class="ins-t" title="${esc(g.hint)}">${esc(g.title)}</div>${g.items
+          .map((it) => `<div class="r" data-i="${it.i}">${esc(it.label)}<small>${esc(it.meta)}</small></div>`).join('')}</div>`)
+        .join('') || '<div style="color:var(--muted)">Nothing to report.</div>';
     },
     setHandsOn(on: boolean) { $('b-hands').classList.toggle('on', on); },
     setFlag(name: 'holo' | 'brain' | 'orb', v: boolean) { $<HTMLInputElement>('f-' + name).checked = v; },
