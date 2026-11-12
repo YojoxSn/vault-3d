@@ -96,6 +96,8 @@ Touches: `/` recherche · `O` orbe / réseau libre · `B` cerveau · `G` hologra
 
 **Carte à partager** (`P` ou le bouton 📸): enregistre une image de votre vault avec ses chiffres. Elle ne contient **que des nombres, jamais de titres de notes**: vous pouvez la poster sans risque.
 
+<img src="images/share-card.png" alt="Exemple de carte : l'orbe avec 198 notes, 686 liens, 9 dossiers" width="380">
+
 **Mode Orbe** (par défaut): les notes sont sur un globe de verre. Hauteur = temps (les plus récentes au pôle nord), secteur = dossier, les notes très reliées s'enfoncent vers le cœur lumineux.
 
 ## Lancer chez vous

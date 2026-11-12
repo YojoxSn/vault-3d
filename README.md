@@ -103,6 +103,8 @@ Keys: `/` search · `O` orb / free network · `B` brain shape · `G` hologram ef
 
 **Share card** (`P` or the 📸 button): saves a picture of your own vault with its numbers. It contains **only counts, never note titles**, so it is safe to post.
 
+<img src="images/share-card.png" alt="Example share card: the orb with 198 notes, 686 links, 9 folders" width="380">
+
 **Orb mode** (default): notes sit on a glass globe. Height = time (newest at the north pole), wedge = folder, well-connected notes sink toward the glowing core.
 
 ## Run it on your computer
