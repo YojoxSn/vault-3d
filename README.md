@@ -29,6 +29,8 @@ It runs **entirely in your browser**: your notes and your camera never leave you
 2. Press **H**, allow the camera, hold up your hand (good light, 40–80 cm from the camera).
 3. Or **drop your own vault folder** on the page. It is read inside your browser tab and is never uploaded.
 
+If it makes you smile, **⭐ star the repo**: it is the main way other people find it. Made a clip with your own vault? Share it with `#Vault3D`.
+
 ## The prompt
 
 Paste this into Claude Code, started in an **empty folder** (not in your vault). It is a short English version; the complete original French prompt is in **[PROMPT.md](PROMPT.md)**.

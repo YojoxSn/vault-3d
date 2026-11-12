@@ -26,6 +26,8 @@ Tout tourne **dans votre navigateur**: vos notes et votre caméra ne quittent ja
 2. Appuyez sur **H**, autorisez la caméra, levez la main (bonne lumière, 40 à 80 cm de la caméra).
 3. Ou **déposez le dossier de votre vault** sur la page: il est lu dans l'onglet de votre navigateur et n'est jamais envoyé.
 
+Si ça vous plaît, **⭐ mettez une étoile au dépôt**: c'est la principale façon dont les autres le découvrent. Un extrait avec votre propre vault ? Partagez-le avec `#Vault3D`.
+
 ## Le prompt
 
 Collez-le dans Claude Code, lancé dans un **dossier vide** (pas dans votre vault). Voici la version courte; le prompt original complet est dans **[PROMPT.md](PROMPT.md)**.
