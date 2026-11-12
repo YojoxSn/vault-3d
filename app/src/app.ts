@@ -7,7 +7,7 @@ import type { GraphNode } from './parser/types';
 import { STATE_DIM, STATE_HI, STATE_NORMAL, type SceneGraph } from './scene/graphObjects';
 import { assignHemispheres, LayoutRunner } from './scene/layout';
 import { computeOrbLayout, createOrbDecor, type OrbDecor } from './scene/orb';
-import { Stage } from './scene/stage';
+import { Stage, type Quality } from './scene/stage';
 import { createLanding } from './ui/landing';
 import { renderNote } from './ui/markdown';
 import { createPanel, type NoteLinkRef } from './ui/panel';
@@ -55,12 +55,14 @@ export class App {
   private firstFit = true;
   private mouse = { x: -1, y: -1, over: false };
   private toastTimer = 0;
+  private qualityMode: 'auto' | Quality = 'auto';
 
   constructor() {
     this.stage = new Stage(document.getElementById('stage-wrap')!);
     this.layout = new LayoutRunner((pos, done, tick) => this.onLayout(pos, done, tick));
     this.buildUi();
     this.bindStage();
+    this.initQuality();
     this.bindKeys();
     this.bindDrop();
     this.stage.frameCbs.push(() => this.onFrame());
@@ -82,6 +84,7 @@ export class App {
         else if (name === 'orb') this.setOrb(v);
         else this.setBrain(v);
       },
+      onQuality: (v) => this.setQualityMode(v),
       onHands: () => void this.toggleHands(),
       onRecenter: () => this.stage.recenter(),
     });
@@ -370,6 +373,26 @@ export class App {
   }
 
   // ------------------------------------------------------------------------------------- toggles
+  private initQuality() {
+    let saved: string | null = null;
+    try { saved = localStorage.getItem('vault3d-quality'); } catch { /* storage can be blocked */ }
+    this.stage.onAutoQuality = (q) => {
+      this.sidebar.setQuality('auto');
+      this.toast(`Quality lowered to "${q}" for a smoother image. Press Q to change.`, 4200);
+    };
+    const ok = saved === 'high' || saved === 'medium' || saved === 'low' || saved === 'auto';
+    this.setQualityMode(ok ? (saved as 'auto' | Quality) : 'auto', false);
+  }
+
+  private setQualityMode(v: 'auto' | Quality, announce = true) {
+    this.qualityMode = v;
+    this.stage.autoQuality = v === 'auto';
+    this.stage.setQuality(v === 'auto' ? 'high' : v);
+    this.sidebar.setQuality(v);
+    try { localStorage.setItem('vault3d-quality', v); } catch { /* ignore */ }
+    if (announce) this.toast(`Quality: ${v}`, 1500);
+  }
+
   private setHolo(v: boolean) { this.holo = v; this.stage.setHologram(v); this.sidebar.setFlag('holo', v); }
 
   private setBrain(v: boolean) {
@@ -562,6 +585,7 @@ export class App {
         case '/': e.preventDefault(); this.sidebar.search.focus(); break;
         case 'r': case 'R': this.stage.recenter(); break;
         case ' ': e.preventDefault(); this.stage.paused = !this.stage.paused; this.toast(this.stage.paused ? 'Rotation paused' : 'Rotation resumed', 1200); break;
+        case 'q': case 'Q': { const m = ['auto', 'high', 'medium', 'low'] as const; this.setQualityMode(m[(m.indexOf(this.qualityMode) + 1) % m.length]); break; }
         case 'o': case 'O': this.setOrb(!this.orb); break;
         case 'b': case 'B': this.setBrain(!this.brain); break;
         case 'g': case 'G': this.setHolo(!this.holo); break;

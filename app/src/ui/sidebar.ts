@@ -7,6 +7,7 @@ export interface SidebarHandlers {
   onPickResult(i: number): void;
   onToggleFolder(name: string): void;
   onToggleTag(tag: string): void;
+  onQuality(value: 'auto' | 'high' | 'medium' | 'low'): void;
   onFlag(name: 'orphans' | 'ghosts' | 'holo' | 'brain' | 'orb', v: boolean): void;
   onHands(): void;
   onRecenter(): void;
@@ -40,6 +41,9 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
       <label class="row"><input type="checkbox" id="f-holo" checked> Hologram effect <kbd>G</kbd></label>
       <label class="row"><input type="checkbox" id="f-orb" checked> Orb mode: time × topic <kbd>O</kbd></label>
       <label class="row"><input type="checkbox" id="f-brain"> Brain shape <kbd>B</kbd></label>
+      <label class="row">Quality <kbd>Q</kbd>
+        <select id="f-quality"><option value="auto">Auto</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low (smoothest)</option></select>
+      </label>
     </div>
     <div class="btns">
       <button class="btn" id="b-hands">✋ Hands mode <kbd>H</kbd></button>
@@ -51,6 +55,7 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
   root.append(hud, toggle, side, hint);
 
   const $ = <T extends HTMLElement>(id: string) => side.querySelector<T>('#' + id) ?? hud.querySelector<T>('#' + id)!;
+  let lastFps = -1;
   const search = $<HTMLInputElement>('search');
   const results = $('results');
   let debounce = 0;
@@ -81,6 +86,7 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
   $<HTMLInputElement>('f-holo').addEventListener('change', (e) => h.onFlag('holo', (e.target as HTMLInputElement).checked));
   $<HTMLInputElement>('f-brain').addEventListener('change', (e) => h.onFlag('brain', (e.target as HTMLInputElement).checked));
   $<HTMLInputElement>('f-orb').addEventListener('change', (e) => h.onFlag('orb', (e.target as HTMLInputElement).checked));
+  $<HTMLSelectElement>('f-quality').addEventListener('change', (e) => h.onQuality((e.target as HTMLSelectElement).value as 'auto' | 'high' | 'medium' | 'low'));
   $('b-hands').addEventListener('click', h.onHands);
   $('b-center').addEventListener('click', h.onRecenter);
   toggle.addEventListener('click', () => side.classList.toggle('collapsed'));
@@ -92,7 +98,8 @@ export function createSidebar(root: HTMLElement, h: SidebarHandlers) {
       $('s-links').textContent = String(s.links);
       $('s-orph').textContent = String(s.orphans);
     },
-    setFps(n: number) { $('s-fps').textContent = String(n); },
+    setFps(n: number) { if (n !== lastFps) { lastFps = n; $('s-fps').textContent = String(n); } },
+    setQuality(v: string) { $<HTMLSelectElement>('f-quality').value = v; },
     setStatus(t: string) { $('status').textContent = t; },
     setFolders(list: FolderItem[]) {
       $('folders').innerHTML = list

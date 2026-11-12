@@ -97,7 +97,7 @@ At the end, give me the exact commands to install and run it.
 | 👋 Fast swipe left / right | Previous / next linked note |
 | 🙌 Both palms toward the camera | Recenter |
 
-Keys: `/` search · `O` orb / free network · `B` brain shape · `G` hologram effect · `H` hands · `R` recenter · `Space` pause · `Esc` close.
+Keys: `/` search · `O` orb / free network · `B` brain shape · `G` hologram effect · `H` hands · `Q` quality · `R` recenter · `Space` pause · `Esc` close.
 
 **Orb mode** (default): notes sit on a glass globe. Height = time (newest at the north pole), wedge = folder, well-connected notes sink toward the glowing core.
 
@@ -114,6 +114,7 @@ To load your vault automatically, copy `.env.example` to `.env` and set `VAULT_P
 
 ## Honest limits
 
+- **Performance depends on your graphics card.** The quality adapts by itself (Auto) and you can force it with `Q` or the Quality menu: High, Medium, Low. If it still stutters, check that hardware acceleration is enabled in your browser (`chrome://gpu` should say "WebGL: Hardware accelerated").
 - The gestures are tested on **simulated hands** and in a real browser pipeline, but **webcams, lighting and hands vary**: thresholds may need tuning. Please open an issue with your setup.
 - The frame rate on a real GPU with 2,000+ notes has not been benchmarked yet (parsing and layout have: 0.2 s and about 5 s for 2,000 notes).
 - Only `.md` notes become nodes; attachments are ignored.

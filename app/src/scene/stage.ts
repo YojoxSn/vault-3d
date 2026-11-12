@@ -8,6 +8,9 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { GraphObjects, type SceneGraph, type SharedUniforms } from './graphObjects';
 import { HologramShader } from './shaders';
 
+export type Quality = 'high' | 'medium' | 'low';
+const LEVELS: Quality[] = ['high', 'medium', 'low'];
+
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 export class Stage {
@@ -35,6 +38,12 @@ export class Stage {
   paused = false;
   frameCbs: Array<(dt: number) => void> = [];
   fps = 0;
+  quality: Quality = 'high';
+  /** When true the stage lowers the quality by itself if the frame rate stays low. */
+  autoQuality = true;
+  onAutoQuality: (q: Quality) => void = () => {};
+  private qualityLockUntil = 0;
+  private slowSamples = 0;
   private frames = 0;
   private fpsT = performance.now();
 
@@ -94,7 +103,10 @@ export class Stage {
     this.renderer.setSize(w, h, false);
     this.renderer.domElement.style.width = '100%';
     this.renderer.domElement.style.height = '100%';
+    this.composer.setPixelRatio(this.renderer.getPixelRatio());
     this.composer.setSize(w, h);
+    // medium: the glow is computed at half resolution (it is blurry anyway), a large saving on slow GPUs
+    if (this.quality === 'medium') { const pr = this.renderer.getPixelRatio(); this.bloom.setSize(Math.floor((w * pr) / 2), Math.floor((h * pr) / 2)); }
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
     (this.holo.uniforms as Record<string, { value: unknown }>).uRes.value = [w * this.renderer.getPixelRatio(), h * this.renderer.getPixelRatio()];
@@ -105,7 +117,9 @@ export class Stage {
   setGraph(sg: SceneGraph) {
     if (this.objects) { this.scene.remove(this.objects.group); this.objects.dispose(); }
     this.objects = new GraphObjects(sg, this.shared);
+    this.objects.setParticleDensity(this.quality === 'low' ? 0.4 : this.quality === 'medium' ? 0.7 : 1);
     this.scene.add(this.objects.group);
+    this.qualityLockUntil = performance.now() + 5000; // shader compilation and first layout are slow
   }
 
   get graph() { return this.objects; }
@@ -115,6 +129,22 @@ export class Stage {
     if (this.decor) this.scene.remove(this.decor);
     this.decor = g;
     if (g) this.scene.add(g);
+  }
+
+  /** high: full resolution + bloom + hologram pass. medium: normal resolution, half-resolution glow. low: 1x, no bloom, no hologram pass, fewer particles. */
+  setQuality(q: Quality) {
+    this.quality = q;
+    const dpr = window.devicePixelRatio || 1;
+    const pr = q === 'high' ? Math.min(dpr, 2) : 1;
+    this.renderer.setPixelRatio(pr);
+    this.shared.uPixelRatio.value = pr;
+    this.bloom.enabled = q !== 'low';
+    this.holo.enabled = q !== 'low';
+    this.objects?.setParticleDensity(q === 'low' ? 0.4 : q === 'medium' ? 0.7 : 1);
+    document.body.classList.toggle('low-fx', q === 'low');
+    this.resize();
+    this.qualityLockUntil = performance.now() + 4000;
+    this.slowSamples = 0;
   }
 
   setHologram(on: boolean) {
@@ -239,8 +269,17 @@ export class Stage {
     this.frames++;
     const now = performance.now();
     if (now - this.fpsT > 500) {
-      this.fps = Math.round((this.frames * 1000) / (now - this.fpsT));
+      const span = now - this.fpsT;
+      this.fps = Math.round((this.frames * 1000) / span);
       this.frames = 0; this.fpsT = now;
+      // ignore the sample taken right after the tab was hidden, and the first seconds after a load or a change
+      const valid = span < 1500 && now > this.qualityLockUntil && !document.hidden;
+      this.slowSamples = valid && this.fps < 24 ? this.slowSamples + 1 : 0;
+      if (this.autoQuality && this.slowSamples >= 4) {
+        const next = LEVELS[LEVELS.indexOf(this.quality) + 1];
+        this.slowSamples = 0;
+        if (next) { this.setQuality(next); this.onAutoQuality(next); }
+      }
     }
   }
 

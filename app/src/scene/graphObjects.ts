@@ -226,6 +226,11 @@ export class GraphObjects {
     this.pointMat.uniforms.uSize.value = this.baseSize * particles;
   }
 
+  /** Fraction of the flowing particles that are drawn (1 = all). */
+  setParticleDensity(f: number) {
+    this.points.geometry.setDrawRange(0, Math.floor(this.particleLink.length * f));
+  }
+
   isVisible(i: number) { return this.visible[i] === 1; }
 
   /** state: brightness factor per node (see STATE_*). */

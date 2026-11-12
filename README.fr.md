@@ -90,7 +90,7 @@ La vidéo ne quitte jamais le navigateur.
 | 👋 Balayage rapide gauche / droite | Note liée précédente / suivante |
 | 🙌 Deux paumes vers la caméra | Recentrer |
 
-Touches: `/` recherche · `O` orbe / réseau libre · `B` cerveau · `G` hologramme · `H` mains · `R` recentrer · `Espace` pause · `Échap` fermer.
+Touches: `/` recherche · `O` orbe / réseau libre · `B` cerveau · `G` hologramme · `H` mains · `Q` qualité · `R` recentrer · `Espace` pause · `Échap` fermer.
 
 **Mode Orbe** (par défaut): les notes sont sur un globe de verre. Hauteur = temps (les plus récentes au pôle nord), secteur = dossier, les notes très reliées s'enfoncent vers le cœur lumineux.
 
@@ -107,6 +107,7 @@ Pour charger votre vault automatiquement, copiez `.env.example` en `.env` et ren
 
 ## Limites assumées
 
+- **La fluidité dépend de votre carte graphique.** La qualité s'adapte toute seule (Auto) et se force avec `Q` ou le menu Quality: High, Medium, Low. Si ça saccade encore, vérifiez que l'accélération matérielle est activée dans votre navigateur (`chrome://gpu` doit indiquer « WebGL: Hardware accelerated »).
 - Les gestes sont testés sur des **mains simulées** et dans un vrai navigateur, mais **webcams et éclairages varient**: les seuils peuvent demander un réglage.
 - La fluidité sur un vrai GPU avec plus de 2 000 notes n'est pas encore mesurée.
 
